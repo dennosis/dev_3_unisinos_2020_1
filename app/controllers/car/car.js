@@ -1,6 +1,6 @@
 const Car = require('../../models/car');
 const App = require('../../models/app');
-const AsyncUtils = require('../../utils-module').Async;
+const AsyncUtils = require('../../../utils-module').Async;
 
 module.exports = {
     create : async (req, res) =>{
