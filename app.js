@@ -3,7 +3,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const car = require('./routes/car.route'); // Imports routes for the car
+const carRouter = require('./routes/car.route'); // Imports routes for the car
+const brandRouter = require('./routes/brand.route'); // Imports routes for the brand
+
 const app = express();
 
 // Set up mongoose connection
@@ -18,7 +20,8 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use('/car', car);
+app.use('/car', carRouter);
+app.use('/brand', brandRouter);
 
 let port = 1234;
 
