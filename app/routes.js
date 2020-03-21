@@ -1,9 +1,11 @@
 const express = require('express');
 const router = new express.Router;
+
 const App = require('./controllers/app/app');
 const Car = require('./controllers/car/car');
 const Brand = require('./controllers/brand/brand');
 const Model = require('./controllers/model/model');
+const User = require('./controllers/user/user');
 
 // App routes
 router.post('/app', App.create);
@@ -22,5 +24,8 @@ router.get('/brand/:id/models', Brand.modelsByBrand);
 // Model routes
 router.post('/brand/:id/model', Model.create);
 router.get('/model/:id/brand', Model.brandByModel);
+
+// User routes
+router.post('/user/register', User.create);
 
 module.exports = router;
