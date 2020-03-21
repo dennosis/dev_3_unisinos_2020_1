@@ -7,11 +7,11 @@ Backend
 Clone the project
 
 ```
-git clone git@github.com:dennosis/dev_3_unisinos_2020_1_frontend.git
+git clone git@github.com:dennosis/dev_3_unisinos_2020_1_backend.git
 ```
 and
 ```
-cd dev_3_unisinos_2020_1_frontend
+cd dev_3_unisinos_2020_1_backend
 ```
 and
 ```
