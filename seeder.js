@@ -1,7 +1,3 @@
-const Model = require('./app/models/model');
-const Brand = require('./app/models/brand');
-const AsyncUtils = require('./utils-module').Async;
-
 const { Seeder } = require('mongo-seeding');
 const path = require('path');
 
