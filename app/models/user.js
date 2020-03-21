@@ -14,7 +14,13 @@ let UserSchema = new Schema({
         type: String,
         required: true,
         select: false,
-    }
+    },
+    locations : [
+        {
+            type: mongoose.Schema.Types.ObjectId, 
+            ref:'Location'
+        }
+    ]
 });
 
 module.exports = mongoose.model('User', UserSchema);

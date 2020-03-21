@@ -4,6 +4,7 @@ const router = new express.Router;
 const App = require('./controllers/app/app');
 const Car = require('./controllers/car/car');
 const Brand = require('./controllers/brand/brand');
+const Location = require('./controllers/location/location');
 const Model = require('./controllers/model/model');
 const User = require('./controllers/user/user');
 
@@ -20,6 +21,9 @@ router.get('/car/:id/apps', Brand.modelsByBrand);
 router.post('/brand', Brand.create);
 router.get('/brands', Brand.find);
 router.get('/brand/:id/models', Brand.modelsByBrand);
+
+// Location routes
+router.post('/location', Location.create);
 
 // Model routes
 router.post('/brand/:id/model', Model.create);

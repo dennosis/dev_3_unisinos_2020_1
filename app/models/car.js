@@ -29,6 +29,12 @@ let CarSchema = new Schema({
             type: mongoose.Schema.Types.ObjectId, 
             ref:'App'
         }
+    ],
+    locations : [
+        {
+            type: mongoose.Schema.Types.ObjectId, 
+            ref:'Location'
+        }
     ]
 });
 
