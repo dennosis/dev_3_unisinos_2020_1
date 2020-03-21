@@ -1,9 +1,4 @@
-const Car = require('../models/car.model');
-
-//Simple version, without validation or sanitation
-exports.test = function (req, res) {
-    res.send('Greetings from the Test controller!');
-};
+const Car = require('../../models/car');
 
 exports.car_create = function (req, res) {
     let car = new Car(
