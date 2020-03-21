@@ -1,12 +1,18 @@
 const express = require('express');
 const router = new express.Router;
+const App = require('./controllers/app/app');
 const Car = require('./controllers/car/car');
 const Brand = require('./controllers/brand/brand');
 const Model = require('./controllers/model/model');
 
+// App routes
+router.post('/app', App.create);
+router.get('/apps', App.find);
+
 // Car routes
 router.post('/car', Car.create);
 router.get('/cars', Car.find);
+router.get('/car/:id/apps', Brand.modelsByBrand);
 
 // Brand routes
 router.post('/brand', Brand.create);

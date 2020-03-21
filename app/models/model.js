@@ -13,6 +13,4 @@ let ModelSchema = new Schema({
     }
 });
 
-
-// Export the model
 module.exports = mongoose.model('Model', ModelSchema);

@@ -8,6 +8,4 @@ let BrandSchema = new Schema({
     ]
 });
 
-
-// Export the model
 module.exports = mongoose.model('Brand', BrandSchema);

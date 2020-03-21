@@ -16,4 +16,5 @@ mongoose.connect('mongodb://localhost:27017/cars', {
 // routes
 app.use(require('./app/routes'));
 
-app.listen(3000, () => console.log('server on!'));
+const port = 3000;
+app.listen(port, () => console.log('server on port', port));

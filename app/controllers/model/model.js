@@ -3,15 +3,14 @@ const Brand = require('../../models/brand');
 
 module.exports = {
     create : async (req, res) => {
-
-        console.log(req.params);
-        brand = req.params;
-        id = brand.id;
+        brandId = req.params.id;
+        
         const { name } = req.body;
         const model = await Model.create({
             name,
-            brand:id
+            brand:brandId
         });
+
         await model.save();
 
         const brandById = await Brand.findById(id);
