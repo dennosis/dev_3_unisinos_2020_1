@@ -1,13 +1,10 @@
 const { Seeder } = require('mongo-seeding');
 const path = require('path');
+require('dotenv').config()
 
 const config = {
-  database: {
-    host: '127.0.0.1',
-    port: 27017,
-    name: 'cars',
-  },
-  dropDatabase: true,
+  database: process.env.MONGO_URL,
+  //dropDatabase: true,
 };
 
 const seeder = new Seeder(config);

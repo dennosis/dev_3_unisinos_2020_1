@@ -12,6 +12,9 @@ const User = require('./controllers/user/user');
 router.post('/app', App.create);
 router.get('/apps', App.find);
 
+// Test
+router.get('/', App.test);
+
 // Car routes
 router.post('/car', Car.create);
 router.get('/cars', Car.find);

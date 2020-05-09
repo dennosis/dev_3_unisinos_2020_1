@@ -20,5 +20,10 @@ module.exports = {
         const car = await App.findById(id).populate('apps');
  
          res.send(car.apps);
-    }    
+    },    
+
+    test : async (req, res) => {
+
+        res.send("<h1>The Travellers IT</h1>");
+    }   
 }
