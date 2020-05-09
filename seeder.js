@@ -1,6 +1,8 @@
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
+
+
 const { Seeder } = require('mongo-seeding');
 const path = require('path');
-require('dotenv').config()
 
 const config = {
   database: process.env.MONGO_URL,
