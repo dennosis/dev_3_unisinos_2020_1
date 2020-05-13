@@ -24,6 +24,6 @@ module.exports = {
 
     test : async (req, res) => {
 
-        res.send("<h1>The Travellers IT</h1>");
+        res.send(["The Travellers IT","App","teste"]);
     }   
 }
