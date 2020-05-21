@@ -1,4 +1,5 @@
 # The Travellers IT
+https://the-travelers-it-backend.herokuapp.com/
 
 Backend
 
@@ -25,7 +26,8 @@ node app.js
 ## Authors
 
 * **Nícolas Bruno** - *Initial work* - [nicolas1bruno](https://github.com/nicolas1bruno)
+* **Dennis Aguiar** - [dennosis](https://github.com/dennosis)
 
-See also the list of [contributors](https://github.com/dennosis/dev_3_unisinos_2020_1_backend/contributors) who participated in this project.
+
 
 
