@@ -13,7 +13,7 @@ module.exports = {
 
         await model.save();
 
-        const brandById = await Brand.findById(id);
+        const brandById = await Brand.findById(brandId);
 
         brandById.models.push(model);
         await brandById.save();
