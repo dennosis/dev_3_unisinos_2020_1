@@ -18,6 +18,7 @@ router.get('/', App.test);
 // Car routes
 router.post('/car', Car.create);
 router.get('/cars', Car.find);
+router.post('/cars/search', Car.search);
 router.get('/car/:id/apps', Brand.modelsByBrand);
 
 // Brand routes
