@@ -4,14 +4,18 @@ const AsyncUtils = require('../../../utils-module').Async;
 
 module.exports = {
     create : async (req, res) =>{
-        const { name, apps, brand, model, manufactureYear, modelYear } = req.body;
+        const { name, apps, brand, model, manufactureYear, modelYear, cost, luggages, airConditioner, passengers } = req.body;
         const car = await Car.create({
             name,
             apps,
             brand,
             model,
             manufactureYear,
-            modelYear
+            modelYear,
+            cost, 
+            luggages, 
+            airConditioner, 
+            passengers
         })
         
         AsyncUtils.asyncForEach(apps, async (appId) => {

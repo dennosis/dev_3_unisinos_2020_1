@@ -24,6 +24,22 @@ let CarSchema = new Schema({
         type: Number,
         required: true
     },
+    cost: {
+        type: mongoose.Decimal128,
+        required: true
+    },
+    luggages: {
+        type: Number,
+        required: true
+    },
+    airConditioner: {
+        type: Boolean,
+        required: true
+    },
+    passengers: {
+        type: Number,
+        required: true
+    },
     apps : [
         {
             type: mongoose.Schema.Types.ObjectId, 
