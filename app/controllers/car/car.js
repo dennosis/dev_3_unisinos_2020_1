@@ -4,8 +4,9 @@ const AsyncUtils = require('../../../utils-module').Async;
 const FiltterBuilderUtils = require('../../../utils-module').FiltterBuilder;
 
 module.exports = {
-    create : async (req, res) =>{
+    create : async (req, res) => {
         const { name, apps, brand, model, manufactureYear, modelYear, cost, luggages, airConditioner, passengers } = req.body;
+        
         const car = await Car.create({
             name,
             apps,
@@ -25,13 +26,23 @@ module.exports = {
             app.cars.push(car);
             await app.save();
         });
+        
+        const populatedCar = 
+            await Car.find({_id: car._id})
+                .populate("brand", 'name')
+                .populate("model", 'name')
+                .populate("apps", 'name');
 
-        return res.send(car)
+        return res.send(populatedCar)
     },
 
     find : async (req, res) => {
         const car = await Car.find()
-        return res.send(car)
+            .populate("brand", 'name')
+            .populate("model", 'name')
+            .populate("apps", 'name');
+        
+            return res.send(car)
     },
 
     search : async (req, res) => {
@@ -59,6 +70,9 @@ module.exports = {
         
         try {
             cars = await Car.find(filtters)
+                .populate("brand", 'name')
+                .populate("model", 'name')
+                .populate("apps", 'name');
         } catch (ex) {
             console.log(ex);
         }
