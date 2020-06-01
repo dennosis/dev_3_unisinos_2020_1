@@ -24,7 +24,7 @@ register = async (req, res) => {
         }else{
 
             let tmpUser = {
-                _id:user.data._id,
+                id:user.data._id,
                 name:user.data.name, 
                 email:user.data.email,
                 cpf:userInfo.data.cpf,

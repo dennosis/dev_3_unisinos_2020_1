@@ -54,7 +54,7 @@ exports.signin = async (req, res) => {
         });
         res.send({
             id: user._id,
-            username: user.name,
+            name: user.name,
             email: user.email,
             token: token
         })
