@@ -29,10 +29,10 @@ register = async (req, res) => {
                 email:user.data.email,
                 cpf:userInfo.data.cpf,
                 rg:userInfo.data.rg,
-                cell:userInfo.data.cell,
-                telephone:userInfo.data.telephone,
+                cellphone:userInfo.data.cellphone,
+                phone:userInfo.data.phone,
                 cnhNumber:userInfo.data.cnhNumber,
-                cnhValidate:userInfo.data.cnhValidate,
+                cnhExpirationDate:userInfo.data.cnhExpirationDate,
                 cnhCategory:userInfo.data.cnhCategory
             }
 

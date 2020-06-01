@@ -20,11 +20,11 @@ let UserInfoSchema = new Schema({
         type: Number,
         required:true,
     },
-    cell:{
+    cellphone:{
         type: Number,
         required:true,
     },
-    telephone:{
+    phone:{
         type: Number
     },
     cnhNumber:{
@@ -32,7 +32,7 @@ let UserInfoSchema = new Schema({
         required:true,
         unique:true,
     },
-    cnhValidate:{
+    cnhExpirationDate:{
         type: Date,
         required:true,
     },

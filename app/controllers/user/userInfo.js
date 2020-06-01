@@ -1,17 +1,16 @@
 const UserInfo = require('../../models/userInfo');
 const User = require('../../models/user');
 
-
 create = async (userData, isSave=false) => {
 
     const{
         user,
         cpf,
         rg,
-        cell,
-        telephone,
+        cellphone,
+        phone,
         cnhNumber,
-        cnhValidate,
+        cnhExpirationDate,
         cnhCategory
     } = userData
 
@@ -29,8 +28,8 @@ create = async (userData, isSave=false) => {
     if(rg == "" || rg == undefined)
         filedsErrors["rg"]="Empty rg"
 
-    if(cell == "" || cell == undefined)
-        filedsErrors["cell"]="Empty cell"
+    if(cellphone == "" || cellphone == undefined)
+        filedsErrors["cellphone"]="Empty cellphone"
 
     if(cnhNumber == "" || cnhNumber == undefined){
         filedsErrors["cnhNumber"]="Empty cnhNumber"
@@ -38,8 +37,8 @@ create = async (userData, isSave=false) => {
         filedsErrors["cnhNumber"]="CnhNumber already exists"
     }
         
-    if(cnhValidate == "" || cnhValidate == undefined)
-        filedsErrors["cnhValidate"]="Empty cnhValidate"
+    if(cnhExpirationDate == "" || cnhExpirationDate == undefined)
+        filedsErrors["cnhExpirationDate"]="Empty cnhExpirationDate"
 
     if(cnhCategory == "" || cnhCategory == undefined)
         filedsErrors["cnhCategory"]="Empty cnhCategory"
@@ -56,10 +55,10 @@ create = async (userData, isSave=false) => {
             user,
             cpf,
             rg,
-            cell,
-            telephone,
+            cellphone,
+            phone,
             cnhNumber,
-            cnhValidate,
+            cnhExpirationDate,
             cnhCategory
         });
 
