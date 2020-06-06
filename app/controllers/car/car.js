@@ -36,13 +36,23 @@ module.exports = {
         return res.send(populatedCar)
     },
 
-    find : async (req, res) => {
+    list : async (req, res) => {
         const car = await Car.find()
             .populate("brand", 'name')
             .populate("model", 'name')
             .populate("apps", 'name');
         
             return res.send(car)
+    },
+
+    getCar : async (req, res) => {
+        const { id } = req.params;
+        const car = await Car.findById(id)
+            .populate("brand", 'name')
+            .populate("model", 'name')
+            .populate("apps", 'name');
+
+        res.send(car);
     },
 
     search : async (req, res) => {

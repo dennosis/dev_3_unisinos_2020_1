@@ -22,9 +22,9 @@ router.get('/',[middlewareAuth.verifyToken],App.test);
 
 // Car routes
 router.post('/car', Car.create);
-router.get('/cars', Car.find);
+router.get('/cars', Car.list);
 router.post('/cars/search', Car.search);
-router.get('/car/:id/apps', Brand.modelsByBrand);
+router.get('/car/:id', Car.getCar);
 
 // Brand routes
 router.post('/brand', Brand.create);
