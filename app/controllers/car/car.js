@@ -5,7 +5,10 @@ const FiltterBuilderUtils = require('../../../utils-module').FiltterBuilder;
 
 module.exports = {
     create : async (req, res) => {
-        const { name, apps, brand, model, manufactureYear, modelYear, cost, luggages, airConditioner, passengers } = req.body;
+        const { 
+            name, apps, brand, model, manufactureYear, modelYear, cost, luggages, airConditioner, passengers,
+            description, airBag, abs
+        } = req.body;
         
         const car = await Car.create({
             name,
@@ -17,7 +20,10 @@ module.exports = {
             cost, 
             luggages, 
             airConditioner, 
-            passengers
+            passengers,
+            description, 
+            airBag, 
+            abs
         })
         
         AsyncUtils.asyncForEach(apps, async (appId) => {
@@ -56,7 +62,10 @@ module.exports = {
     },
 
     search : async (req, res) => {
-        const { name, apps, brand, model, manufactureYear, modelYear, cost, luggages, airConditioner, passengers } = req.body;
+        const { 
+            name, apps, brand, model, manufactureYear, modelYear, cost, luggages, 
+            airConditioner, passengers, airBag, abs 
+        } = req.body;
 
         let filtters = {};
         
@@ -66,6 +75,8 @@ module.exports = {
         if (model) { filtters.model = model}
         if (luggages) { filtters.luggages = luggages}
         if (airConditioner) { filtters.airConditioner = airConditioner}
+        if (airBag) { filtters.airBag = airBag}
+        if (abs) { filtters.abs = abs}
 
         //complex apps filtter
         if (apps) { filtters.apps = { $in: apps } }

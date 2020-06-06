@@ -6,6 +6,10 @@ let CarSchema = new Schema({
         type: String, 
         required: true
     },
+    description: {
+        type: String, 
+        required: false
+    },
     brand: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Brand',
@@ -38,6 +42,14 @@ let CarSchema = new Schema({
     },
     passengers: {
         type: Number,
+        required: true
+    },
+    airBag: {
+        type: Boolean,
+        required: true
+    },
+    abs: {
+        type: Boolean,
         required: true
     },
     apps : [
