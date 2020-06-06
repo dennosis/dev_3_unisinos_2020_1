@@ -24,13 +24,18 @@ let UserSchema = new Schema({
         type:Date,
         default:Date.now,
         select:false,
-    }
-
+    },
+    cards : [
+        { type: mongoose.Schema.Types.ObjectId, ref: 'Card' }
+    ]
 });
 
 UserSchema.pre('save', async function(next){
-    const hash = await bcrypt.hash(this.password, 10);
-    this.password = hash;
+    if(this.password) {
+        const hash = await bcrypt.hash(this.password, 10);
+        this.password = hash;
+    }
+
     next();
 });
 

@@ -12,6 +12,7 @@ const Model = require('./controllers/model/model');
 const User = require('./controllers/user/user');
 const Register = require('./controllers/user/register');
 const Auth = require('./controllers/auth/auth');
+const Card = require('./controllers/card/card');
 
 // App routes
 router.post('/app', App.create);
@@ -45,6 +46,8 @@ router.post('/user/register', Register.register);
 router.post("/authenticate/signup", Auth.signup);
 router.post("/authenticate/signin", Auth.signin);
 
-
+//card
+router.post("/user/:id/card", Card.create);
+router.get("/user/:id/cards", Card.findCardsByUser);
 
 module.exports = router;
