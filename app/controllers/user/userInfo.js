@@ -54,12 +54,11 @@ create = async (userData, isSave=false) => {
     if(cep == "" || cep == undefined)
         filedsErrors["cep"]="Empty cep"
 
-
     if(address == "" || address == undefined)
         filedsErrors["address"]="Empty address"
 
     if(number == "" || number == undefined)
-        filedsErrors["address"]="Empty address"
+        filedsErrors["number"]="Empty number"
 
     if(neighborhood == "" || neighborhood == undefined)
         filedsErrors["neighborhood"]="Empty neighborhood"
