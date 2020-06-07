@@ -11,7 +11,15 @@ create = async (userData, isSave=false) => {
         phone,
         cnhNumber,
         cnhExpirationDate,
-        cnhCategory
+        cnhCategory,
+        cep,
+        address,
+        number,
+        residentialComplement,
+        neighborhood,
+        city,
+        uf
+
     } = userData
 
     filedsErrors = {}
@@ -43,6 +51,25 @@ create = async (userData, isSave=false) => {
     if(cnhCategory == "" || cnhCategory == undefined)
         filedsErrors["cnhCategory"]="Empty cnhCategory"
 
+    if(cep == "" || cep == undefined)
+        filedsErrors["cep"]="Empty cep"
+
+
+    if(address == "" || address == undefined)
+        filedsErrors["address"]="Empty address"
+
+    if(number == "" || number == undefined)
+        filedsErrors["address"]="Empty address"
+
+    if(neighborhood == "" || neighborhood == undefined)
+        filedsErrors["neighborhood"]="Empty neighborhood"
+
+    if(city == "" || city == undefined)
+        filedsErrors["city"]="Empty city"
+
+    if(uf == "" || uf == undefined)
+        filedsErrors["uf"]="Empty uf"
+
     if(!(Object.keys(filedsErrors).length === 0)){
         return{
             errors:filedsErrors,
@@ -59,7 +86,14 @@ create = async (userData, isSave=false) => {
             phone,
             cnhNumber,
             cnhExpirationDate,
-            cnhCategory
+            cnhCategory,
+            cep,
+            address,
+            number,
+            residentialComplement,
+            neighborhood,
+            city,
+            uf    
         });
 
         if(isSave){
