@@ -44,7 +44,7 @@ let UserInfoSchema = new Schema({
         type: Number,
         required:true,
     },
-    caddressp:{
+    address:{
         type: String,
         required:true,
     },
