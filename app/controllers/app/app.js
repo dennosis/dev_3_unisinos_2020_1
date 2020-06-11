@@ -23,6 +23,8 @@ module.exports = {
     },    
 
     test : async (req, res) => {
+        const { userId } = req;
+        console.log("userId", userId);
 
         res.send(["The Travellers IT","App","teste"]);
     }   

@@ -47,7 +47,8 @@ router.post("/authenticate/signup", Auth.signup);
 router.post("/authenticate/signin", Auth.signin);
 
 //card
-router.post("/user/:id/card", Card.create);
-router.get("/user/:id/cards", Card.findCardsByUser);
+router.post("/card", [middlewareAuth.verifyToken], Card.create);
+router.get("/cards", [middlewareAuth.verifyToken], Card.findCardsByUser);
+router.get("/card/:id", [middlewareAuth.verifyToken], Card.findCardById);
 
 module.exports = router;

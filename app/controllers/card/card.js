@@ -6,7 +6,7 @@ const User = require('../../models/user');
 module.exports = {
     create : async (req, res) =>{
         try {
-            let user = req.params.id;
+            const { userId } = req;
         
             const { cardNumber, name, expirationMonth, expirationYear, document } = req.body;
             
@@ -16,15 +16,15 @@ module.exports = {
                 expirationMonth, 
                 expirationYear, 
                 document, 
-                user
+                userId
             });
 
-            const relatedUser = await User.findById(user);
+            const relatedUser = await User.findById(userId);
             
             if(relatedUser) {
                 relatedUser.cards.push(card);
                 await relatedUser.save();
-            }     
+            }
 
             return res.send(card);
         } catch (error) {
@@ -33,13 +33,20 @@ module.exports = {
     },
 
     findCardsByUser : async (req, res) => {
-        let userId = req.params.id;
-
+        const { userId } = req;
+        
         const relatedUser = await User.findById(userId)
             .populate('cards');
 
-        res.send(relatedUser.cards);
+        
+        res.send({cards: relatedUser.cards});
+    },
 
-        res.send(cards);
+    findCardById : async (req, res) => {
+        const { id } = req.params;
+        
+        const card = await Card.findById(id);
+        
+        res.send(card);
     }
 }
