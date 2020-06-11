@@ -13,6 +13,7 @@ const User = require('./controllers/user/user');
 const Register = require('./controllers/user/register');
 const Auth = require('./controllers/auth/auth');
 const Card = require('./controllers/card/card');
+const Billet = require('./controllers/billet/billet');
 
 // App routes
 router.post('/app', App.create);
@@ -50,5 +51,9 @@ router.post("/authenticate/signin", Auth.signin);
 router.post("/card", [middlewareAuth.verifyToken], Card.create);
 router.get("/cards", [middlewareAuth.verifyToken], Card.findCardsByUser);
 router.get("/card/:id", [middlewareAuth.verifyToken], Card.findCardById);
+
+router.post("/billet", Billet.create);
+router.get("/billets", Billet.find);
+router.get("/billet/:id", Billet.findById);
 
 module.exports = router;
