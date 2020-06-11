@@ -58,10 +58,10 @@ let CarSchema = new Schema({
             ref:'App'
         }
     ],
-    locations : [
+    rents : [
         {
             type: mongoose.Schema.Types.ObjectId, 
-            ref:'Location'
+            ref:'Rent'
         }
     ]
 });

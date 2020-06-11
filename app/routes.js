@@ -7,7 +7,7 @@ const middlewareAuth  = require("./middlewares/auth");
 const App = require('./controllers/app/app');
 const Car = require('./controllers/car/car');
 const Brand = require('./controllers/brand/brand');
-const Location = require('./controllers/location/location');
+const Rent = require('./controllers/rent/rent');
 const Model = require('./controllers/model/model');
 const User = require('./controllers/user/user');
 const Register = require('./controllers/user/register');
@@ -33,8 +33,8 @@ router.post('/brand', Brand.create);
 router.get('/brands', Brand.find);
 router.get('/brand/:id/models', Brand.modelsByBrand);
 
-// Location routes
-router.post('/location', Location.create);
+// Rent routes
+router.post('/rent', [middlewareAuth.verifyToken], Rent.create);
 
 // Model routes
 router.post('/brand/:id/model', Model.create);
