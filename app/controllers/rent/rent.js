@@ -31,5 +31,15 @@ module.exports = {
         await relatedCar.save();
 
         return res.send(rent);
-    }
+    },
+
+    find : async (req, res) => {
+        const { userId } = req;
+
+        const rents = await Rent.find({customer: userId})
+            .populate("car")
+            .populate("rentalCompany")
+        
+        return res.send({rents: rents})
+    },
 }
