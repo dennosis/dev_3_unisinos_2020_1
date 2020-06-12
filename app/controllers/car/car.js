@@ -81,7 +81,7 @@ module.exports = {
         const { 
             name, apps, brand, model, manufactureYear, modelYear, cost, luggages, 
             airConditioner, passengers, airBag, abs, locationPickup, isAplicationCar, 
-            dateInit, dateEnd
+            dateInit, dateEnd, kilometrage
         } = req.body;
 
         let filtters = {};
@@ -145,7 +145,8 @@ module.exports = {
         if (manufactureYear) { filtters = FiltterBuilderUtils.build(manufactureYear, filtters, "manufactureYear") }
         if (modelYear) { filtters = FiltterBuilderUtils.build(modelYear, filtters, "modelYear") }
         if (cost) { filtters = FiltterBuilderUtils.build(cost, filtters, "cost") }
-        if (passengers) { filtters.passengers = passengers}
+        if (passengers) { filtters = FiltterBuilderUtils.build(passengers, filtters, "passengers") }
+        if (kilometrage) { filtters = FiltterBuilderUtils.build(kilometrage, filtters, "kilometrage") }
         
         let cars = [];
         
