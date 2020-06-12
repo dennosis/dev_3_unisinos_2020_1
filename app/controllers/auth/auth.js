@@ -69,10 +69,9 @@ signup = async (req, res) => {
 
 };
 
-
 signin = async (req, res) => {
 
-    const {errors, user} = validate(req.body)
+    const {errors, user} = await validate(req.body)
 
     if(!(Object.keys(errors).length === 0))
         return res.status(401).send({
@@ -92,7 +91,6 @@ signin = async (req, res) => {
     })
 
 }
-
 
 module.exports = {
     signup,
