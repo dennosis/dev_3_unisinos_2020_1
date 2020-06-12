@@ -7,12 +7,14 @@ const middlewareAuth  = require("./middlewares/auth");
 const App = require('./controllers/app/app');
 const Car = require('./controllers/car/car');
 const Brand = require('./controllers/brand/brand');
-const Location = require('./controllers/location/location');
+const Rent = require('./controllers/rent/rent');
 const Model = require('./controllers/model/model');
 const User = require('./controllers/user/user');
 const Register = require('./controllers/user/register');
 const Auth = require('./controllers/auth/auth');
 const Card = require('./controllers/card/card');
+const Billet = require('./controllers/billet/billet');
+const RentalCompany = require('./controllers/rentalCompany/rentalCompany');
 
 // App routes
 router.post('/app', App.create);
@@ -32,8 +34,8 @@ router.post('/brand', Brand.create);
 router.get('/brands', Brand.find);
 router.get('/brand/:id/models', Brand.modelsByBrand);
 
-// Location routes
-router.post('/location', Location.create);
+// Rent routes
+router.post('/rent', [middlewareAuth.verifyToken], Rent.create);
 
 // Model routes
 router.post('/brand/:id/model', Model.create);
@@ -47,7 +49,16 @@ router.post("/authenticate/signup", Auth.signup);
 router.post("/authenticate/signin", Auth.signin);
 
 //card
-router.post("/user/:id/card", Card.create);
-router.get("/user/:id/cards", Card.findCardsByUser);
+router.post("/card", [middlewareAuth.verifyToken], Card.create);
+router.get("/cards", [middlewareAuth.verifyToken], Card.findCardsByUser);
+router.get("/card/:id", [middlewareAuth.verifyToken], Card.findCardById);
+
+router.post("/billet", Billet.create);
+router.get("/billets", Billet.find);
+router.get("/billet/:id", Billet.findById);
+
+router.post("/rental-company", RentalCompany.create);
+router.get("/rental-companies", RentalCompany.find);
+router.get("/rental-company/:id", RentalCompany.findById);
 
 module.exports = router;

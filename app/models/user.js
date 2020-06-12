@@ -27,6 +27,9 @@ let UserSchema = new Schema({
     },
     cards : [
         { type: mongoose.Schema.Types.ObjectId, ref: 'Card' }
+    ],
+    rents : [
+        { type: mongoose.Schema.Types.ObjectId, ref: 'Rent' }
     ]
 });
 

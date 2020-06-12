@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let LocationSchema = new Schema({
+let RentSchema = new Schema({
     status: {
         type: String, 
         required: true
@@ -16,4 +16,4 @@ let LocationSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Location', LocationSchema);
+module.exports = mongoose.model('Rent', RentSchema);
