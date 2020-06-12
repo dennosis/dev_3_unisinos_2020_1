@@ -1,4 +1,5 @@
 const User = require('../../models/user');
+const { findById } = require('../../models/user');
 
 validate = async (data) => {
 
@@ -50,32 +51,7 @@ create = async (data) => {
     } 
 }
 
-createByReq = async (req, res) => {
-
-    try{
-        const errors = validate(req.body).errors
-
-        if(Object.keys(errors).length === 0)
-            return res.status(406).send({
-                errors, 
-                message:"Error create user"            
-            })
-
-        const user = create(req.body)
-        
-        return res.send({
-            user,
-            message:"Created user"
-        })
-
-    }catch(e){
-        return res.status(500).send(e)
-    }
-
-}
-
 module.exports = {
     create,
-    createByReq,
     validate
 };
