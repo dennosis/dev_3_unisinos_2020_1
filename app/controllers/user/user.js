@@ -1,5 +1,4 @@
 const User = require('../../models/user');
-const { findById } = require('../../models/user');
 
 validate = async (data) => {
 
@@ -16,11 +15,10 @@ validate = async (data) => {
 
     if(email == "" || email == undefined){
         errors["email"]="Empty email"
-        
+
     }else if(await User.findOne({email})){
         errors["email"]="Email already exists"
     }
-
     if(password == "" || password == undefined)
         errors["password"]="Empty password"
 

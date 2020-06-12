@@ -41,9 +41,9 @@ signup = async (req, res) => {
 
     const data =  req.body
 
-    const errors = await UserController.validate(data).errors
+    const errors = await UserController.validate(data)
 
-    if(Object.keys(errors).length > 0)
+    if(Object.keys(errors.errors).length > 0)
         return res.status(406).send({
             errors, 
             message:"Error create user"            
