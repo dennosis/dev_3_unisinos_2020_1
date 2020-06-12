@@ -11,8 +11,9 @@ register = async (req, res) => {
         const userErrors = UserController.validate(data).errors
         const userInfoErrors = UserInfoController.validate(data).errors
         const addressErrors = AddressController.validate(data).errors
-
-        if(Object.keys({...userErrors, ...userInfoErrors, ...addressErrors}).length > 0)
+        const errors = {...userErrors, ...userInfoErrors, ...addressErrors}
+        
+        if(Object.keys(errors).length > 0)
             return res.status(406).send({
                 errors, 
                 message:"Error register user"
