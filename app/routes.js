@@ -15,6 +15,7 @@ const Auth = require('./controllers/auth/auth');
 const Card = require('./controllers/card/card');
 const Billet = require('./controllers/billet/billet');
 const RentalCompany = require('./controllers/rentalCompany/rentalCompany');
+const Payment = require('./controllers/payment/payment');
 
 // App routes
 router.post('/app', App.create);
@@ -36,6 +37,10 @@ router.get('/brand/:id/models', Brand.modelsByBrand);
 
 // Rent routes
 router.post('/rent', [middlewareAuth.verifyToken], Rent.create);
+
+// Payment
+router.post('/payment/card', Payment.payWithCard);
+router.post('/payment/billet', Payment.payWithBillet);
 
 // Model routes
 router.post('/brand/:id/model', Model.create);
