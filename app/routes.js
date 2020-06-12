@@ -38,6 +38,7 @@ router.get('/brand/:id/models', Brand.modelsByBrand);
 // Rent routes
 router.post('/rent', [middlewareAuth.verifyToken], Rent.create);
 router.get('/rents', [middlewareAuth.verifyToken], Rent.find);
+router.get('/rent/:id', [middlewareAuth.verifyToken], Rent.findById);
 
 // Payment
 router.post('/payment/card', Payment.payWithCard);

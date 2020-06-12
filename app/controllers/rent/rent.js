@@ -42,4 +42,14 @@ module.exports = {
         
         return res.send({rents: rents})
     },
+
+    findById : async (req, res) => {
+        const { id } = req.params;
+
+        const rent = await Rent.findById(id)
+            .populate("car")
+            .populate("rentalCompany")
+        
+        return res.send(rent)
+    },
 }
