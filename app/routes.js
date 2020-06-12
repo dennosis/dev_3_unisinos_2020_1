@@ -14,6 +14,7 @@ const Register = require('./controllers/user/register');
 const Auth = require('./controllers/auth/auth');
 const Card = require('./controllers/card/card');
 const Billet = require('./controllers/billet/billet');
+const RentalCompany = require('./controllers/rentalCompany/rentalCompany');
 
 // App routes
 router.post('/app', App.create);
@@ -55,5 +56,9 @@ router.get("/card/:id", [middlewareAuth.verifyToken], Card.findCardById);
 router.post("/billet", Billet.create);
 router.get("/billets", Billet.find);
 router.get("/billet/:id", Billet.findById);
+
+router.post("/rental-company", RentalCompany.create);
+router.get("/rental-companies", RentalCompany.find);
+router.get("/rental-company/:id", RentalCompany.findById);
 
 module.exports = router;
