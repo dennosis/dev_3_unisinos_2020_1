@@ -1,6 +1,6 @@
-const UserController = require('./user');
-const UserInfoController = require('./userInfo');
-const AddressController = require('./address');
+const UserController = require('../user/user');
+const UserInfoController = require('../userInfo/userInfo');
+const AddressController = require('../address/address');
 
 register = async (req, res) => {
 
@@ -12,7 +12,7 @@ register = async (req, res) => {
         const userInfoErrors = UserInfoController.validate(data).errors
         const addressErrors = AddressController.validate(data).errors
         const errors = {...userErrors, ...userInfoErrors, ...addressErrors}
-        
+
         if(Object.keys(errors).length > 0)
             return res.status(406).send({
                 errors, 
