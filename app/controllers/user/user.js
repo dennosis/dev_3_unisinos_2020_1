@@ -1,76 +1,81 @@
 const User = require('../../models/user');
 
+validate = async (data) => {
 
-create = async (userData, isSave=false) => {
+    const{ 
+        name, 
+        email, 
+        password 
+    } = data
 
-    const{ name, email, password } = userData;
-
-    let filedsErrors = {}
-    let checkEmail = true
+    let errors = {}
 
     if(name == "" || name == undefined)
-        filedsErrors["name"]="Empty Name"
+        errors["name"]="Empty Name"
 
-    
     if(email == "" || email == undefined){
-        filedsErrors["email"]="Empty email"
+        errors["email"]="Empty email"
         
     }else if(await User.findOne({email})){
-        filedsErrors["email"]="Email already exists"
-
+        errors["email"]="Email already exists"
     }
 
     if(password == "" || password == undefined)
-        filedsErrors["password"]="Empty password"
+        errors["password"]="Empty password"
 
+    return { errors }
+}
 
-    if(!(Object.keys(filedsErrors).length === 0)){
-
-        return{
-            errors:filedsErrors,
-            message:"Error creating user"
-        }
-
-    }else{
+create = async (data) => {
+    try{
+        const{ 
+            name, 
+            email, 
+            password 
+        } = data
 
         const user = await new User({
             name,
             email,
             password
         });
-    
-        if(isSave){
-            await user.save();
-        }
 
-        return  { 
-            data:user, 
-            message:"Created user" 
-        }
-    }
+        await user.save();
+        
+        return user  
+    
+    }catch(e){
+        console.log(e)
+        throw { message:"Error create user" }
+    } 
 }
 
 createByReq = async (req, res) => {
 
     try{
+        const errors = validate(req.body).errors
 
-        const {data, errors, message} = await create(req.body, true)
+        if(Object.keys(errors).length === 0)
+            return res.status(406).send({
+                errors, 
+                message:"Error create user"            
+            })
 
-        if(data){
+        const user = create(req.body)
+        
+        return res.send({
+            user,
+            message:"Created user"
+        })
 
-            return res.send(data);
-
-        }else{
-            return res.status(406).send({errors, message})
-        }
-
-    }catch(err){
-        return res.status(500).send({message:err.errmsg})
+    }catch(e){
+        return res.status(500).send(e)
     }
-}
 
+}
 
 module.exports = {
     create,
-    createByReq
+    createByReq,
+    validate
 };

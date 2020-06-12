@@ -40,33 +40,10 @@ let UserInfoSchema = new Schema({
         required:true,
         max: 2
     },
-    cep:{
-        type: Number,
+    address :{
+        type: mongoose.Schema.Types.ObjectId, 
+        ref:'Address',
         required:true,
-    },
-    address:{
-        type: String,
-        required:true,
-    },
-    number:{
-        type: Number,
-        required:true,
-    },
-    residentialComplement:{
-        type: Number,
-    },
-    neighborhood:{
-        type: String,
-        required:true,
-    },
-    city:{
-        type: String,
-        required:true,
-    },
-    uf:{
-        type: String,
-        required:true,
-        max: 2
     },
     createdAt:{
         type:Date,

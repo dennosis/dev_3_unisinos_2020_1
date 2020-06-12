@@ -1,51 +1,43 @@
 const UserController = require('./user');
 const UserInfoController = require('./userInfo');
-
+const AddressController = require('./address');
 
 register = async (req, res) => {
+
     try{
 
-        let body = req.body
-        let user = await UserController.create(body)
+        const data = req.body
 
-        let userInfo = await UserInfoController.create({user:user.data,...body}, true)
+        const userErrors = UserController.validate(data).errors
+        const userInfoErrors = UserInfoController.validate(data).errors
+        const addressErrors = AddressController.validate(data).errors
 
-        if(userInfo.errors || user.errors){
-
-            let errors = {...user.errors,...userInfo.errors}
-            
-            errors.user = undefined
-
+        if(Object.keys({...userErrors, ...userInfoErrors, ...addressErrors}).length > 0)
             return res.status(406).send({
                 errors, 
-                message:"Error creating user"
+                message:"Error register user"
             })
+        
+        const user = await UserController.create(data)
+        const address = await AddressController.create(data)
+        const userInfo = await UserInfoController.create({user,address,...data})
 
-        }else{
-
-            let tmpUser = {
-                id:user.data._id,
-                name:user.data.name, 
-                email:user.data.email,
-                cpf:userInfo.data.cpf,
-                rg:userInfo.data.rg,
-                cellphone:userInfo.data.cellphone,
-                phone:userInfo.data.phone,
-                cnhNumber:userInfo.data.cnhNumber,
-                cnhExpirationDate:userInfo.data.cnhExpirationDate,
-                cnhCategory:userInfo.data.cnhCategory
-            }
-
-            return res.send({
-                user:tmpUser, 
-                message:"Created user"
-            });
-
-        }
+        return res.send({
+            id:user._id,
+            name:user.name,
+            email:user.email,
+            cpf:userInfo.cpf,
+            rg:userInfo.rg,
+            cellphone:userInfo.cellphone,
+            phone:userInfo.phone,
+            cnhNumber:userInfo.cnhNumber,
+            cnhExpirationDate:userInfo.cnhExpirationDate,
+            cnhCategory:userInfo.cnhCategory
+        });
 
     }catch(err){
         console.log(err)
-        return res.status(500).send({message:err.errmsg})
+        return res.status(500).send(err)
     }
 
 }
