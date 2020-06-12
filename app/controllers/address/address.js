@@ -52,7 +52,7 @@ create = async (data) => {
     } = data
 
     try{
-        const address = await new Address({
+        const newAddress = await new Address({
             cep,
             address,
             number,
@@ -64,9 +64,9 @@ create = async (data) => {
             longitude
         });
     
-        await address.save();
+        await newAddress.save();
     
-        return address
+        return newAddress
     }catch(e){
         console.log(e)
         throw { message:"Error create address" }

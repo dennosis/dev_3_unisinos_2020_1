@@ -18,6 +18,11 @@ let RentalCompanySchema = new Schema({
         required: true,
         unique:true,
         lowercase:true,
+    },
+    address :{
+        type: mongoose.Schema.Types.ObjectId, 
+        ref:'Address',
+        required:true,
     }
 });
 
