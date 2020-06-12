@@ -6,16 +6,14 @@ module.exports = {
     create : async (req, res) => {
         const { userId } = req;
         
-        let { car, status } = req.body;
+        let { rentalCompanyId, carId, dateInit, dateEnd } = req.body;
         
-        if(status === undefined) {
-            status = "PROPOSAL"
-        }
-
         const rent = await Rent.create({
-            status,
             customer: userId,
-            car
+            rentalCompany: rentalCompanyId,
+            car: carId,
+            dateInit, 
+            dateEnd
         });
 
         await rent.save();
@@ -28,7 +26,7 @@ module.exports = {
         await relatedUser.save();
 
         //add Rent to Car
-        const relatedCar = await Car.findById(car);
+        const relatedCar = await Car.findById(carId);
         relatedCar.rents.push(rent);
         await relatedCar.save();
 
