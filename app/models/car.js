@@ -6,6 +6,10 @@ let CarSchema = new Schema({
         type: String, 
         required: true
     },
+    image: {
+        type: String, 
+        required: true
+    },
     description: {
         type: String, 
         required: false
@@ -51,6 +55,16 @@ let CarSchema = new Schema({
     abs: {
         type: Boolean,
         required: true
+    },
+    kilometrage: {
+        type: Number
+    },
+    board: {
+        type: String
+    },
+    rentalCompany: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'RentalCompany'
     },
     apps : [
         {
