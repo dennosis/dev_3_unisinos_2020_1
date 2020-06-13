@@ -122,6 +122,8 @@ setUser = async (req, res) => {
         if(number){ userInfo.address.number = number }
 
         userInfo.save()
+        userInfo.user.save()
+        userInfo.address.save()
 
         return res.send({
             email: userInfo.user.email,
