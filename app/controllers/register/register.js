@@ -43,34 +43,114 @@ register = async (req, res) => {
 }
 
 getUser = async (req, res) => {
-    const { userId } = req;
-    const userInfo = await UserInfo
-                        .findOne({user:userId})
-                        .populate("user")
-                        .populate("address")
-                        
-    return res.send({
-        id:userInfo.user._id,
-        email: userInfo.user.email,
-        name: userInfo.user.name,
-        cpf: userInfo.cpf,
-        rg: userInfo.rg,
-        phone: userInfo.phone,
-        cellphone: userInfo.cellphone,
-        cnhNumber: userInfo.cnhNumber,
-        cnhCategory: userInfo.cnhCategory,
-        cnhExpirationDate: userInfo.cnhExpirationDate,
-        uf:userInfo.address.uf,
-        city:userInfo.address.city,
-        cep: userInfo.address.cep,
-        address: userInfo.address.address,
-        residentialComplement: userInfo.address.residentialComplement,
-        neighborhood: userInfo.address.neighborhood,
-        number: userInfo.address.number
-    })
+    
+    try{
+
+        const { userId } = req;
+        const userInfo = await UserInfo
+                            .findOne({user:userId})
+                            .populate("user")
+                            .populate("address")
+
+        return res.send({
+            email: userInfo.user.email,
+            name: userInfo.user.name,
+            cpf: userInfo.cpf,
+            rg: userInfo.rg,
+            phone: userInfo.phone,
+            cellphone: userInfo.cellphone,
+            cnhNumber: userInfo.cnhNumber,
+            cnhCategory: userInfo.cnhCategory,
+            cnhExpirationDate: userInfo.cnhExpirationDate,
+            uf:userInfo.address.uf,
+            city:userInfo.address.city,
+            cep: userInfo.address.cep,
+            address: userInfo.address.address,
+            residentialComplement: userInfo.address.residentialComplement,
+            neighborhood: userInfo.address.neighborhood,
+            number: userInfo.address.number
+        })
+    }catch(err){
+        console.log(err)
+        return res.status(500).send(err)
+    }
+
 }
+
+
+
+setUser = async (req, res) => {
+
+    try{
+        const { userId } = req;
+        const userInfo = await UserInfo
+                            .findOne({user:userId})
+                            .populate("user")
+                            .populate("address")  
+        const {
+            name,
+            cpf,
+            rg,
+            phone,
+            cellphone,
+            cnhNumber,
+            cnhCategory,
+            cnhExpirationDate,
+            uf,
+            city,
+            cep,
+            address,
+            residentialComplement,
+            neighborhood,
+            number
+        } = req.body
+
+        if(name){ userInfo.user.name = name }
+        if(cpf){ userInfo.cpf = cpf }
+        if(rg){ userInfo.rg = rg }
+        if(phone){ userInfo.phone = phone }
+        if(cellphone){ userInfo.cellphone = cellphone }
+        if(cnhNumber){ userInfo.cnhNumber = cnhNumber }
+        if(cnhCategory){ userInfo.cnhCategory = cnhCategory }
+        if(cnhExpirationDate){ userInfo.cnhExpirationDate = cnhExpirationDate }
+        if(uf){ userInfo.address.uf = uf }
+        if(city){ userInfo.address.city = city }
+        if(cep){ userInfo.address.cep = cep }
+        if(address){ userInfo.address.address = address }
+        if(residentialComplement){ userInfo.address.residentialComplement = residentialComplement }
+        if(neighborhood){ userInfo.address.neighborhood = neighborhood }
+        if(number){ userInfo.address.number = number }
+
+        userInfo.save()
+
+        return res.send({
+            email: userInfo.user.email,
+            name: userInfo.user.name,
+            cpf: userInfo.cpf,
+            rg: userInfo.rg,
+            phone: userInfo.phone,
+            cellphone: userInfo.cellphone,
+            cnhNumber: userInfo.cnhNumber,
+            cnhCategory: userInfo.cnhCategory,
+            cnhExpirationDate: userInfo.cnhExpirationDate,
+            cep: userInfo.address.cep,
+            uf:userInfo.address.uf,
+            city:userInfo.address.city,
+            address: userInfo.address.address,
+            residentialComplement: userInfo.address.residentialComplement,
+            neighborhood: userInfo.address.neighborhood,
+            number: userInfo.address.number
+        })
+
+    }catch(err){
+        console.log(err)
+        return res.status(500).send(err)
+    }
+}
+
 
 module.exports = {
     register,
-    getUser
+    getUser,
+    setUser
 };
