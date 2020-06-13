@@ -64,6 +64,7 @@ router.get('/cars/:id', Car.getCar);
 
 // User routes
 router.post('/user/register', Register.register);
+router.get('/user',[middlewareAuth.verifyToken], Register.getUser);
 
 // Auth routes
 router.post("/authenticate/signup", Auth.signup);

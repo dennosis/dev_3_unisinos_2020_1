@@ -9,8 +9,9 @@ let AddressSchema = new Schema({
         required:true,
     },
     address:{
-        type: String,
-        required:true,
+        type: String, 
+        required: true,
+        lowercase:true
     },
     number:{
         type: Number,
