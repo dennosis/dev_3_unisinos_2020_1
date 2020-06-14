@@ -62,14 +62,20 @@ module.exports = {
     },
 
     list : async (req, res) => {
-        const car = await Car.find()
+        const cars = await Car.find()
             .populate("brand", 'name')
             .populate("model", 'name')
             .populate("apps", 'name')
             .populate("currentRentalCompany", 'name')
             .populate("rentalCompanies", 'name');
         
-            return res.send(car)
+        let response = [];
+        
+        cars.forEach(car => {
+            response.push(convertToResponse(car))
+        });
+
+        return res.send({cars: response})
     },
 
     getCar : async (req, res) => {
@@ -82,7 +88,7 @@ module.exports = {
             .populate("currentRentalCompany", 'name')
             .populate("rentalCompanies", 'name');
 
-        res.send(car);
+        res.send(convertToResponse(car));
     },
 
     search : async (req, res) => {
@@ -167,13 +173,69 @@ module.exports = {
                 .populate("model", 'name')
                 .populate("apps", 'name')
                 .populate("currentRentalCompany", 'name')
-                .populate("rentalCompanies", 'name');
-
+                .populate("rentalCompanies", 'name');            
         } catch (ex) {
             console.log(ex);
         }
         
-        return res.send({cars: cars})
+        let response = [];
+        
+        cars.forEach(car => {
+            response.push(convertToResponse(car))
+        });
+
+        return res.send({cars: response})
     }
 }
 
+let convertToResponse = (car) => {
+    let currentRentalCompany = undefined;
+    let rentalCompanies = [];
+    let apps = [];
+
+    if(car.currentRentalCompany) {
+        currentRentalCompany = {
+            id: car.currentRentalCompany._id,
+            name: car.currentRentalCompany.name,
+        }
+    }
+
+    if(car.rentalCompanies) {
+        car.rentalCompanies.forEach(company => {
+            rentalCompanies.push({
+                id: company._id,
+                name: company.name
+            })
+        });
+    }
+
+    if(car.apps) {
+        car.apps.forEach(app => {
+            apps.push(app.name)
+        });
+    }
+
+    return {
+        id: car._id,
+        image: car.image, 
+        description: car.description, 
+        brand: (car.brand) ? car.brand.name : '', 
+        model: (car.model) ? car.model.name : '', 
+        modelYear: car.modelYear, 
+        manufactureYear: car.manufactureYear, 
+        cost: (car.cost) ? car.cost.toString() : 0, 
+        security: (car.security) ? car.security.toString() : 0, 
+        adminTax: (car.adminTax) ? car.adminTax.toString() : 0, 
+        luggages: car.luggages,
+        airConditioner: car.airConditioner,
+        passengers: car.passengers,
+        airBag: car.airBag,
+        abs: car.abs,
+        abs: car.abs,
+        currentRentalCompany: currentRentalCompany,
+        rentalCompanies: rentalCompanies,
+        kilometrage: car.kilometrage,
+        color: car.color,
+        apps: apps
+    };
+}
