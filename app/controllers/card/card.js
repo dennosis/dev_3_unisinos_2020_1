@@ -5,9 +5,13 @@ const User = require('../../models/user');
 
 validate = async (data) => {
 
-    const { cardNumber, expirationMonth, expirationYear, document, cvv } = data;
+    const { holderBirthDate, cardNumber, expirationMonth, expirationYear, document, cvv } = data;
     
     let errors = {}
+
+    if(holderBirthDate == "" || holderBirthDate == undefined){
+        errors["holderBirthDate"]="Empty holderBirthDate"
+    }
 
     if(cardNumber == "" || cardNumber == undefined){
         errors["cardNumber"]="Empty cardNumber"
