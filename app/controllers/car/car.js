@@ -10,7 +10,8 @@ module.exports = {
         try {
             const { 
                 name, apps, brand, model, manufactureYear, modelYear, cost, luggages, airConditioner, passengers,
-                description, airBag, abs, kilometrage, board, rentalCompany, image
+                description, airBag, abs, kilometrage, board, currentRentalCompany, rentalCompanies, image, security, 
+                adminTax, color
             } = req.body;
             
             const car = await Car.create({
@@ -29,8 +30,12 @@ module.exports = {
                 abs,
                 kilometrage,
                 board,
-                rentalCompany,
-                image
+                currentRentalCompany,
+                rentalCompanies,
+                image,
+                security, 
+                adminTax, 
+                color
             })
             
             if(apps) {
@@ -47,7 +52,8 @@ module.exports = {
                     .populate("brand", 'name')
                     .populate("model", 'name')
                     .populate("apps", 'name')
-                    .populate("rentalCompany", 'name');
+                    .populate("currentRentalCompany", 'name')
+                    .populate("rentalCompanies", 'name');
     
             return res.send(populatedCar)
         } catch (error) {
@@ -60,7 +66,8 @@ module.exports = {
             .populate("brand", 'name')
             .populate("model", 'name')
             .populate("apps", 'name')
-            .populate("rentalCompany", 'name');
+            .populate("currentRentalCompany", 'name')
+            .populate("rentalCompanies", 'name');
         
             return res.send(car)
     },
@@ -72,7 +79,8 @@ module.exports = {
             .populate("brand", 'name')
             .populate("model", 'name')
             .populate("apps", 'name')
-            .populate("rentalCompany", 'name');
+            .populate("currentRentalCompany", 'name')
+            .populate("rentalCompanies", 'name');
 
         res.send(car);
     },
@@ -81,7 +89,7 @@ module.exports = {
         const { 
             name, apps, brand, model, manufactureYear, modelYear, cost, luggages, 
             airConditioner, passengers, airBag, abs, locationPickup, isAplicationCar, 
-            dateInit, dateEnd, kilometrage
+            dateInit, dateEnd, kilometrage, security, adminTax, color
         } = req.body;
 
         let filtters = {};
@@ -94,7 +102,8 @@ module.exports = {
         if (airConditioner) { filtters.airConditioner = airConditioner}
         if (airBag) { filtters.airBag = airBag}
         if (abs) { filtters.abs = abs}
-        if (locationPickup) { filtters.rentalCompany = locationPickup}
+        if (locationPickup) { filtters.currentRentalCompany = locationPickup}
+        if (color) { filtters.color = color}
 
         //complex apps filtter
         if (apps) { filtters.apps = { $in: apps } }
@@ -147,6 +156,8 @@ module.exports = {
         if (cost) { filtters = FiltterBuilderUtils.build(cost, filtters, "cost") }
         if (passengers) { filtters = FiltterBuilderUtils.build(passengers, filtters, "passengers") }
         if (kilometrage) { filtters = FiltterBuilderUtils.build(kilometrage, filtters, "kilometrage") }
+        if (security) { filtters = FiltterBuilderUtils.build(security, filtters, "security") }
+        if (adminTax) { filtters = FiltterBuilderUtils.build(adminTax, filtters, "adminTax") }
         
         let cars = [];
         
@@ -155,7 +166,8 @@ module.exports = {
                 .populate("brand", 'name')
                 .populate("model", 'name')
                 .populate("apps", 'name')
-                .populate("rentalCompany", 'name');
+                .populate("currentRentalCompany", 'name')
+                .populate("rentalCompanies", 'name');
 
         } catch (ex) {
             console.log(ex);

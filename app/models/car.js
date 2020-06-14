@@ -36,6 +36,14 @@ let CarSchema = new Schema({
         type: mongoose.Decimal128,
         required: true
     },
+    security: {
+        type: mongoose.Decimal128,
+        required: true
+    },
+    adminTax: {
+        type: mongoose.Decimal128,
+        required: true
+    },
     luggages: {
         type: Number,
         required: true
@@ -62,10 +70,20 @@ let CarSchema = new Schema({
     board: {
         type: String
     },
-    rentalCompany: {
+    color: {
+        type: String,
+        required: true
+    },
+    currentRentalCompany: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'RentalCompany'
     },
+    rentalCompanies : [
+        {
+            type: mongoose.Schema.Types.ObjectId, 
+            ref:'RentalCompany'
+        }
+    ],
     apps : [
         {
             type: mongoose.Schema.Types.ObjectId, 
