@@ -8,6 +8,10 @@ let PaymentSchema = new Schema({
     value: {
         type: Number
     },
+    rent: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Rent'
+    },
     card: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Card'

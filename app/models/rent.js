@@ -10,10 +10,6 @@ let RentSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Car'
     },
-    rentalCompany: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'RentalCompany'
-    },
     datePickup: {
         type: Date,
         required: true
@@ -26,6 +22,18 @@ let RentSchema = new Schema({
         type: mongoose.Decimal128,
         required: true
     },
+    pickupRentalCompany: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'RentalCompany'
+    },
+    deliveryRentalCompany: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'RentalCompany'
+    },
+    payment: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Payment'
+    }    
 });
 
 module.exports = mongoose.model('Rent', RentSchema);

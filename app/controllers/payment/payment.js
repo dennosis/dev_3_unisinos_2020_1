@@ -13,6 +13,10 @@ module.exports = {
             value: value
         })
 
+        let rent = await Rent.findById(rentId);
+        rent.payment = payment._id;
+        await rent.save();
+
         return res.send(convertToResponse(payment, true))
     },
 

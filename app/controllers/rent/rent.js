@@ -2,17 +2,24 @@ const Rent = require('../../models/rent');
 const User = require('../../models/user');
 const Car = require('../../models/car');
 
+const AsyncUtils = require('../../../utils-module').Async;
+
 module.exports = {
     create : async (req, res) => {
         const { userId } = req;
         
-        let { rentalCompanyId, carId, datePickup, dateDelivery } = req.body;
+        let { rentalCompanyPickupId, rentalCompanyDeliveryId, carId, datePickup, dateDelivery } = req.body;
         
+        if (!rentalCompanyDeliveryId) {
+            rentalCompanyDeliveryId = rentalCompanyPickupId;
+        }
+
         let totalAmount = await calculate(carId, datePickup, dateDelivery);
         
         const rent = await Rent.create({
             customer: userId,
-            rentalCompany: rentalCompanyId,
+            pickupRentalCompany: rentalCompanyPickupId,
+            deliveryRentalCompany: rentalCompanyDeliveryId,
             car: carId,
             datePickup, 
             dateDelivery,
@@ -30,7 +37,7 @@ module.exports = {
         relatedCar.rents.push(rent);
         await relatedCar.save();
 
-        return res.send(rent);
+        return res.send(convertCreatedToResponse(rent));
     },
 
     find : async (req, res) => {
@@ -38,9 +45,18 @@ module.exports = {
 
         const rents = await Rent.find({customer: userId})
             .populate("car")
-            .populate("rentalCompany")
+            .populate("pickupRentalCompany")
+            .populate("deliveryRentalCompany")
+            .populate("payment")
         
-        return res.send({rents: rents})
+        let response = [];
+
+        await Promise.all(rents.map(async (rent) => {
+            let converted = await convertListToResponse(rent);            
+            response.push(converted)
+        }));
+        
+        return res.send({rents: response})
     },
 
     findById : async (req, res) => {
@@ -48,9 +64,11 @@ module.exports = {
 
         const rent = await Rent.findById(id)
             .populate("car")
-            .populate("rentalCompany")
+            .populate("pickupRentalCompany")
+            .populate("deliveryRentalCompany")
+            .populate("payment")
         
-        return res.send(rent)
+        return res.send(await convertListToResponse(rent))
     },
 }
 
@@ -70,4 +88,36 @@ let calculate = async (carId, datePickup, dateDelivery) => {
     totalAmount += parseFloat(car.adminTax.toString());
     
     return totalAmount;
+}
+
+let convertCreatedToResponse = (rent) => {
+    return {
+        id: rent._id,
+        message: 'Reserva efetuada, efetue o pagamento.'
+    }
+}
+
+let convertListToResponse = async (rent) => {
+    let car = undefined;
+    let cardId = (rent.car) ? rent.car._id : undefined;
+    
+    if(cardId) {
+        car = await Car.findById(rent.car)
+            .populate("model")
+    }
+    
+    return {
+        id: rent._id,
+        rentalCompanyPickupName: (rent.pickupRentalCompany) ? rent.pickupRentalCompany.name : '',
+        rentalCompanyPickupId: (rent.pickupRentalCompany) ? rent.pickupRentalCompany._id : '',
+        rentalCompanyDeliveryName: (rent.deliveryRentalCompany) ? rent.deliveryRentalCompany.name : '',
+        rentalCompanyDeliveryId: (rent.deliveryRentalCompany) ? rent.deliveryRentalCompany._id : '',
+        model: (car) ? ((car.model) ? car.model.name : '') : '',
+        board: (car) ? car.board : '',
+        modelYear: (car) ? car.modelYear : '',
+        carId: cardId,
+        datePickup: rent.datePickup,
+        dateDelivery: rent.dateDelivery,
+        paymentId: (rent.payment) ? rent.payment._id : ''
+    }
 }
