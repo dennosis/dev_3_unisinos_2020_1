@@ -71,7 +71,7 @@ let create  = async (req, res) =>{
             await relatedUser.save();
         }
 
-        return res.send(card);
+        return res.send({id: card._id, cardNumber: card.cardNumber});
     } catch (error) {
         console.log(error);
     }
@@ -83,8 +83,12 @@ let findCardsByUser = async (req, res) => {
     const relatedUser = await User.findById(userId)
         .populate('cards');
 
-    
-    res.send({cards: relatedUser.cards});
+    let cards = [];
+    relatedUser.cards.forEach(card => {
+        cards.push({id: card._id, cardNumber: card.cardNumber})    
+    });
+
+    res.send({cards: cards});
 }
 
 let findCardById  =  async (req, res) => {
@@ -92,7 +96,7 @@ let findCardById  =  async (req, res) => {
     
     const card = await Card.findById(id);
     
-    res.send(card);
+    return res.send({id: card._id, cardNumber: card.cardNumber});
 }
 
 module.exports = {
