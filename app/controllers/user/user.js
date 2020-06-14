@@ -1,7 +1,6 @@
 const User = require('../../models/user');
 
-validate = async (data) => {
-
+let validate = async (data) => {
     const{ 
         name, 
         email, 
@@ -25,7 +24,7 @@ validate = async (data) => {
     return { errors }
 }
 
-create = async (data) => {
+let create = async (data) => {
     try{
         const{ 
             name, 

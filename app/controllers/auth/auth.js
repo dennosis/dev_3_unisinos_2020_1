@@ -4,7 +4,7 @@ const authConfig = require("../../config/auth");
 const User = require('../../models/user');
 const UserController = require('../user/user');
 
-validate = async (data) => {
+let validate = async (data) => {
     const {
         email, 
         password
@@ -35,9 +35,9 @@ validate = async (data) => {
     }
 
     return { errors, user }
-}
+};
 
-signup = async (req, res) => {
+let signup = async (req, res) => {
 
     const data =  req.body
 
@@ -69,7 +69,7 @@ signup = async (req, res) => {
 
 };
 
-signin = async (req, res) => {
+let signin = async (req, res) => {
 
     const {errors, user} = await validate(req.body)
 
@@ -90,7 +90,7 @@ signin = async (req, res) => {
         token: token
     })
 
-}
+};
 
 module.exports = {
     signup,

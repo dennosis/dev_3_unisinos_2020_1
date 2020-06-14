@@ -1,9 +1,7 @@
 const Card = require('../../models/card');
 const User = require('../../models/user');
 
-//const validateUtil = require('../../../utils-module').validateUtil;
-
-validate = async (data) => {
+let validate = async (data) => {
 
     const { holderBirthDate, cardNumber, expirationMonth, expirationYear, document, cvv } = data;
     
@@ -39,9 +37,9 @@ validate = async (data) => {
 
     return { errors }
 
-},
+}
 
-create  = async (req, res) =>{
+let create  = async (req, res) =>{
 
     const cardErrors = await validate(req.body)
 
@@ -77,9 +75,9 @@ create  = async (req, res) =>{
     } catch (error) {
         console.log(error);
     }
-},
+}
 
-findCardsByUser = async (req, res) => {
+let findCardsByUser = async (req, res) => {
     const { userId } = req;
     
     const relatedUser = await User.findById(userId)
@@ -87,9 +85,9 @@ findCardsByUser = async (req, res) => {
 
     
     res.send({cards: relatedUser.cards});
-},
+}
 
-findCardById  =  async (req, res) => {
+let findCardById  =  async (req, res) => {
     const { id } = req.params;
     
     const card = await Card.findById(id);

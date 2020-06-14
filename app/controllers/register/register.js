@@ -3,7 +3,7 @@ const UserInfoController = require('../userInfo/userInfo');
 const AddressController = require('../address/address');
 const UserInfo = require('../../models/userInfo');
 
-register = async (req, res) => {
+let register = async (req, res) => {
 
     const data = req.body
 
@@ -42,7 +42,7 @@ register = async (req, res) => {
     }
 }
 
-getUser = async (req, res) => {
+let getUser = async (req, res) => {
     
     try{
 
@@ -79,7 +79,7 @@ getUser = async (req, res) => {
 
 
 
-setUser = async (req, res) => {
+let setUser = async (req, res) => {
 
     try{
         const { userId } = req;

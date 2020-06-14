@@ -32,19 +32,23 @@ router.get('/brand/:id/models', Brand.modelsByBrand);
 router.post('/brand/:id/model', Model.create);
 router.get('/model/:id/brand', Model.brandByModel);
 
+// Auth routes
+router.post("/authenticate/signup", Auth.signup);
+router.post("/authenticate/signin", Auth.signin);
+/*
 // Card
 router.post("/cards", [middlewareAuth.verifyToken], Card.create);
 router.get("/cards", [middlewareAuth.verifyToken], Card.findCardsByUser);
 router.get("/cards/:id", [middlewareAuth.verifyToken], Card.findCardById);
-
+*/
 // Billet
-router.post("/billets", Billet.create);
-router.get("/billets", Billet.find);
-router.get("/billets/:id", Billet.findById);
+router.post("/billets",[middlewareAuth.verifyToken], Billet.create);
+router.get("/billets",[middlewareAuth.verifyToken], Billet.find);
+router.get("/billets/:id",[middlewareAuth.verifyToken], Billet.findById);
 
 // Payment
-router.post('/payment/card', Payment.payWithCard);
-router.post('/payment/billet', Payment.payWithBillet);
+router.post('/payment/card',[middlewareAuth.verifyToken], Payment.payWithCard);
+router.post('/payment/billet',[middlewareAuth.verifyToken], Payment.payWithBillet);
 
 // Rent
 router.post('/rents', [middlewareAuth.verifyToken], Rent.create);
@@ -67,8 +71,6 @@ router.post('/user/register', Register.register);
 router.get('/user',[middlewareAuth.verifyToken], Register.getUser);
 router.put('/user/update',[middlewareAuth.verifyToken], Register.setUser);
 
-// Auth routes
-router.post("/authenticate/signup", Auth.signup);
-router.post("/authenticate/signin", Auth.signin);
+
 
 module.exports = router;

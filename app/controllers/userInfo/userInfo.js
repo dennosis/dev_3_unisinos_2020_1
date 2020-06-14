@@ -1,6 +1,6 @@
 const UserInfo = require('../../models/userInfo');
 
-validate = async (data) => {
+let validate = async (data) => {
 
     const{
         cpf,
@@ -43,7 +43,7 @@ validate = async (data) => {
 
 }
 
-create = async (data) => {
+let create = async (data) => {
 
     const{
         user,
