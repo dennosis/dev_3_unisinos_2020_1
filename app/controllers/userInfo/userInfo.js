@@ -13,7 +13,7 @@ validate = async (data) => {
 
     } = data
 
-    errors = {}
+    let errors = {}
 
     if(cpf == "" || cpf == undefined){
         errors["cpf"]="Empty cpf"
