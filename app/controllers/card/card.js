@@ -5,7 +5,7 @@ const User = require('../../models/user');
 
 validate = async (data) => {
 
-    const { cardNumber, expirationMonth, expirationYear, document } = data;
+    const { cardNumber, expirationMonth, expirationYear, document, cvv } = data;
     
     let errors = {}
 
@@ -29,6 +29,10 @@ validate = async (data) => {
         errors["document"]="Empty document"
     }
 
+    if(cvv == "" || cvv == undefined){
+        errors["cvv"]="Empty cvv"
+    }
+
     return { errors }
 
 },
@@ -47,13 +51,14 @@ create  = async (req, res) =>{
     try {
         const { userId } = req;
     
-        const { cardNumber, expirationMonth, expirationYear, document } = req.body;
+        const { cardNumber, expirationMonth, expirationYear, document, cvv } = req.body;
         
         const card = await Card.create({
             cardNumber, 
             expirationMonth, 
             expirationYear, 
-            document, 
+            document,
+            cvv,
             userId
         });
 

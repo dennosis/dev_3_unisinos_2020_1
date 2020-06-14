@@ -14,6 +14,10 @@ let CardSchema = new Schema({
         type: Number, 
         required: true
     },
+    cvv: {
+        type: Number, 
+        required: true
+    },
     document: {
         type: String, 
         required: true
