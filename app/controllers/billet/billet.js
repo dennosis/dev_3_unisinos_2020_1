@@ -10,12 +10,19 @@ module.exports = {
             url
         })
 
-        return res.send(billet)
+        return res.send(convertToResponse(billet))
     },
 
     find : async (req, res) => {
         const billets = await Billet.find()
-        return res.send(billets)
+        
+        let response = [];
+
+        billets.forEach(billet => {
+            response.push(convertToResponse(billet))
+        });
+
+        return res.send(response)
     },
 
     findById : async (req, res) => {
@@ -23,6 +30,15 @@ module.exports = {
         
         const billet = await Billet.findById(id);
  
-         res.send(billet);
-    }   
+         res.send(convertToResponse(billet));
+    }    
+}
+
+let convertToResponse = (billet) => {
+    return {
+        id: billet._id,
+        code: billet.code, 
+        dueDate: billet.dueDate, 
+        url: billet.url
+    };
 }
