@@ -14,14 +14,18 @@ let RentSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'RentalCompany'
     },
-    dateInit: {
+    datePickup: {
         type: Date,
         required: true
     },
-    dateEnd: {
+    dateDelivery: {
         type: Date,
         required: true
-    }
+    },
+    totalAmount: {
+        type: mongoose.Decimal128,
+        required: true
+    },
 });
 
 module.exports = mongoose.model('Rent', RentSchema);

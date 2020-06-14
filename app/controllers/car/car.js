@@ -89,7 +89,7 @@ module.exports = {
         const { 
             name, apps, brand, model, manufactureYear, modelYear, cost, luggages, 
             airConditioner, passengers, airBag, abs, locationPickup, isAplicationCar, 
-            dateInit, dateEnd, kilometrage, security, adminTax, color
+            datePickup, dateEnd, kilometrage, security, adminTax, color
         } = req.body;
 
         let filtters = {};
@@ -119,20 +119,20 @@ module.exports = {
         }
         
         //complex data filtter
-        if(dateInit && dateEnd) {
+        if(datePickup && dateDelivery) {
             let rentFiltters = [];
             
             rentFiltters.push({
-                dateInit: {
-                    $gte: dateInit,
-                    $lte: dateEnd
+                datePickup: {
+                    $gte: datePickup,
+                    $lte: dateDelivery
                 }
             })
 
             rentFiltters.push({
-                dateEnd: {
-                    $gte: dateInit,
-                    $lte: dateEnd
+                dateDelivery: {
+                    $gte: datePickup,
+                    $lte: dateDelivery
                 }
             })
             
@@ -147,7 +147,7 @@ module.exports = {
             
             if (rentedCards.length > 0) {
                 filtters._id = { $nin: rentedCards }
-            }            
+            }
         }
 
         //complex filtter

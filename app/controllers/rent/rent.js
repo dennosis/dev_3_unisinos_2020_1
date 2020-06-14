@@ -6,21 +6,21 @@ module.exports = {
     create : async (req, res) => {
         const { userId } = req;
         
-        let { rentalCompanyId, carId, dateInit, dateEnd } = req.body;
+        let { rentalCompanyId, carId, datePickup, dateDelivery } = req.body;
+        
+        let totalAmount = await calculate(carId, datePickup, dateDelivery);
         
         const rent = await Rent.create({
             customer: userId,
             rentalCompany: rentalCompanyId,
             car: carId,
-            dateInit, 
-            dateEnd
+            datePickup, 
+            dateDelivery,
+            totalAmount: totalAmount
         });
 
         await rent.save();
 
-        //add Rent to User
-        console.log("userId", userId);
-        
         const relatedUser = await User.findById(userId);
         relatedUser.rents.push(rent);
         await relatedUser.save();
@@ -52,4 +52,22 @@ module.exports = {
         
         return res.send(rent)
     },
+}
+
+let calculate = async (carId, datePickup, dateDelivery) => {
+    const car = await Car.findById(carId);
+
+    datePickup = new Date(datePickup);
+    dateDelivery = new Date(dateDelivery);
+    
+    daysCount = (dateDelivery.getTime() - datePickup.getTime()) / (1000 * 3600 * 24);
+    
+    //(dias * cost) + (dias * security) + (adminTax)
+    let totalAmount = 0;
+    
+    totalAmount += daysCount * parseFloat(car.cost.toString());
+    totalAmount += daysCount * parseFloat(car.security.toString());
+    totalAmount += parseFloat(car.adminTax.toString());
+    
+    return totalAmount;
 }
