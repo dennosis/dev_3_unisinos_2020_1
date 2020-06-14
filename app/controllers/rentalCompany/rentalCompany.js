@@ -24,7 +24,13 @@ module.exports = {
         const companies = await RentalCompany.find()
             .populate('address')
 
-        return res.send(companies)
+        let response = [];
+        
+        companies.forEach(company => {
+            response.push(convertToResponse(company))
+        });
+
+        return res.send(response)
     },
 
     findById : async (req, res) => {
@@ -33,6 +39,25 @@ module.exports = {
         const company = await RentalCompany.findById(id)
             .populate('address');
  
-        res.send(company);
+        res.send(convertToResponse(company));
+    }
+}
+
+let convertToResponse = (company) => {
+    return {
+        id: company._id,
+        name: company.name,
+        cellphone: company.cellphone,
+        phone: company.phone,
+        email: company.email,
+        cep: (company.address) ? company.address.cep : '',
+        address: (company.address) ? company.address.address : '',
+        number: (company.address) ? company.address.number : '',
+        residentialComplement: (company.address) ? company.address.residentialComplement : '',
+        neighborhood: (company.address) ? company.address.neighborhood : '',
+        city: (company.address) ? company.address.city : '',
+        uf: (company.address) ? company.address.uf : '',
+        latitude: (company.address) ? company.address.latitude : '',
+        longitude: (company.address) ? company.address.longitude : '',
     }
 }

@@ -53,7 +53,7 @@ router.get('/rents/:id', [middlewareAuth.verifyToken], Rent.findById);
 
 // Rental Company
 router.post("/rental-company", RentalCompany.create);
-router.get("/rental-companies", RentalCompany.find);
+router.get("/rental-company", RentalCompany.find);
 router.get("/rental-company/:id", RentalCompany.findById);
 
 // Car
