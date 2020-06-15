@@ -33,7 +33,7 @@ module.exports = {
         return res.send(convertToResponse(payment, false))
     },
 
-    findPaymentById  =  async (req, res) => {
+    findPaymentById: async (req, res) => {
         const { id } = req.params;
         
         const payment = await Payment.findById(id);
