@@ -31,8 +31,23 @@ module.exports = {
         })
 
         return res.send(convertToResponse(payment, false))
-    }  
+    },
+
+    findPaymentById  =  async (req, res) => {
+        const { id } = req.params;
+        
+        const payment = await Payment.findById(id);
+        
+        return res.send({
+            id: payment._id,
+            isPaidOut: payment.isPaidOut,
+            value: payment.value,
+            card: payment.card,
+            billet: payment.billet        
+        });
+    }
 }
+
 
 let getValue = async (rentId) => {
     const rent = await Rent.findById(rentId);

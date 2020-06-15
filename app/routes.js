@@ -9,6 +9,7 @@ const Brand = require('./controllers/brand/brand');
 const Rent = require('./controllers/rent/rent');
 const Model = require('./controllers/model/model');
 const User = require('./controllers/user/user');
+const Address = require('./controllers/address/address');
 const Register = require('./controllers/register/register');
 const Auth = require('./controllers/auth/auth');
 const Card = require('./controllers/card/card');
@@ -45,6 +46,7 @@ router.get("/billets/:id",[middlewareAuth.verifyToken], Billet.findById);
 // Payment
 router.post('/payment/card',[middlewareAuth.verifyToken], Payment.payWithCard);
 router.post('/payment/billet',[middlewareAuth.verifyToken], Payment.payWithBillet);
+router.get('/payment/:id',[middlewareAuth.verifyToken], Payment.findPaymentById);
 
 // Rent
 router.post('/rents', [middlewareAuth.verifyToken], Rent.create);
@@ -66,6 +68,10 @@ router.get('/cars/:id', Car.getCar);
 router.post('/user/register', Register.register);
 router.get('/user',[middlewareAuth.verifyToken], Register.getUser);
 router.put('/user/update',[middlewareAuth.verifyToken], Register.setUser);
+
+// Address routes
+router.get('/address/:id', Address.findAddressById);
+
 
 // Auth routes
 router.post("/authenticate/signup", Auth.signup);

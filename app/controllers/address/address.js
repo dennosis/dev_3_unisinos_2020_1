@@ -1,6 +1,6 @@
 const Address = require('../../models/address');
 
-validate = async (data) => {
+let validate = async (data) => {
 
     const{
         cep,
@@ -37,7 +37,7 @@ validate = async (data) => {
 
 }
 
-create = async (data) => {
+let create = async (data) => {
     
     const{
         cep,
@@ -74,7 +74,28 @@ create = async (data) => {
     
 }
 
+let findAddressById  =  async (req, res) => {
+    const { id } = req.params;
+    
+    const address = await Address.findById(id);
+    
+    return res.send({
+        id: address._id,
+        cep: address.cep,
+        address: address.address,
+        number: address.number,
+        residentialComplement: address.residentialComplement,
+        neighborhood: address.neighborhood,
+        city: address.city,
+        uf: address.uf,
+        latitude: address.latitude,
+        longitude:  address.longitude 
+    });
+}
+
+
 module.exports = {
     create,
-    validate
+    validate,
+    findAddressById
 };
