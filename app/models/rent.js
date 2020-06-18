@@ -22,11 +22,11 @@ let RentSchema = new Schema({
         type: mongoose.Decimal128,
         required: true
     },
-    pickupRentalCompany: {
+    rentalCompanyPickup: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'RentalCompany'
     },
-    deliveryRentalCompany: {
+    rentalCompanyDelivery: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'RentalCompany'
     },

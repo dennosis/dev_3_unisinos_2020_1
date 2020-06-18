@@ -18,8 +18,8 @@ module.exports = {
         
         const rent = await Rent.create({
             customer: userId,
-            pickupRentalCompany: rentalCompanyPickupId,
-            deliveryRentalCompany: rentalCompanyDeliveryId,
+            rentalCompanyPickup: rentalCompanyPickupId,
+            rentalCompanyDelivery: rentalCompanyDeliveryId,
             car: carId,
             datePickup, 
             dateDelivery,
@@ -45,8 +45,8 @@ module.exports = {
 
         const rents = await Rent.find({customer: userId})
             .populate("car")
-            .populate("pickupRentalCompany")
-            .populate("deliveryRentalCompany")
+            .populate("rentalCompanyPickup")
+            .populate("rentalCompanyDelivery")
             .populate("payment")
         
         let response = [];
@@ -64,8 +64,8 @@ module.exports = {
 
         const rent = await Rent.findById(id)
             .populate("car")
-            .populate("pickupRentalCompany")
-            .populate("deliveryRentalCompany")
+            .populate("rentalCompanyPickup")
+            .populate("rentalCompanyDelivery")
             .populate("payment")
         
         return res.send(await convertListToResponse(rent))
@@ -108,10 +108,10 @@ let convertListToResponse = async (rent) => {
     
     return {
         id: rent._id,
-        rentalCompanyPickupName: (rent.pickupRentalCompany) ? rent.pickupRentalCompany.name : '',
-        rentalCompanyPickupId: (rent.pickupRentalCompany) ? rent.pickupRentalCompany._id : '',
-        rentalCompanyDeliveryName: (rent.deliveryRentalCompany) ? rent.deliveryRentalCompany.name : '',
-        rentalCompanyDeliveryId: (rent.deliveryRentalCompany) ? rent.deliveryRentalCompany._id : '',
+        rentalCompanyPickupName: (rent.rentalCompanyPickup) ? rent.rentalCompanyPickup.name : '',
+        rentalCompanyPickupId: (rent.rentalCompanyPickup) ? rent.rentalCompanyPickup._id : '',
+        rentalCompanyDeliveryName: (rent.rentalCompanyDelivery) ? rent.rentalCompanyDelivery.name : '',
+        rentalCompanyDeliveryId: (rent.rentalCompanyDelivery) ? rent.rentalCompanyDelivery._id : '',
         model: (car) ? ((car.model) ? car.model.name : '') : '',
         board: (car) ? car.board : '',
         modelYear: (car) ? car.modelYear : '',

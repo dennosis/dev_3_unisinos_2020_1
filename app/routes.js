@@ -52,6 +52,7 @@ router.get('/payment/:id',[middlewareAuth.verifyToken], Payment.findPaymentById)
 router.post('/rents', [middlewareAuth.verifyToken], Rent.create);
 router.get('/rents', [middlewareAuth.verifyToken], Rent.find);
 router.get('/rents/:id', [middlewareAuth.verifyToken], Rent.findById);
+//router.put('/rents', [middlewareAuth.verifyToken], Rent.findById);
 
 // Rental Company
 router.post("/rental-company", RentalCompany.create);
@@ -67,7 +68,7 @@ router.get('/cars/:id', Car.getCar);
 // User routes
 router.post('/user/register', Register.register);
 router.get('/user',[middlewareAuth.verifyToken], Register.getUser);
-router.put('/user/update',[middlewareAuth.verifyToken], Register.setUser);
+router.put('/user',[middlewareAuth.verifyToken], Register.setUser);
 
 // Address routes
 router.get('/address/:id', Address.findAddressById);
