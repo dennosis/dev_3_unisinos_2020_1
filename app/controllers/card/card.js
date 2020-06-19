@@ -73,30 +73,40 @@ let create  = async (req, res) =>{
 
         return res.send({id: card._id, cardNumber: card.cardNumber});
     } catch (error) {
-        console.log(error);
+        res.status(500).send({message: "Error creating card"});
     }
 }
 
 let findCardsByUser = async (req, res) => {
-    const { userId } = req;
+    try {
+        const { userId } = req;
     
-    const relatedUser = await User.findById(userId)
-        .populate('cards');
+        const relatedUser = await User.findById(userId)
+            .populate('cards');
 
-    let cards = [];
-    relatedUser.cards.forEach(card => {
-        cards.push({id: card._id, cardNumber: card.cardNumber})    
-    });
+        let cards = [];
+        relatedUser.cards.forEach(card => {
+            cards.push({id: card._id, cardNumber: card.cardNumber})    
+        });
 
-    res.send({cards: cards});
+        res.send({cards: cards});
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({message: "Error getting cards"});
+    }
 }
 
 let findCardById  =  async (req, res) => {
-    const { id } = req.params;
+    try {
+        const { id } = req.params;
     
-    const card = await Card.findById(id);
-    
-    return res.send({id: card._id, cardNumber: card.cardNumber});
+        const card = await Card.findById(id);
+        
+        return res.send({id: card._id, cardNumber: card.cardNumber});    
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({message: "Error getting card"});
+    }
 }
 
 module.exports = {

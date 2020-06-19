@@ -2,23 +2,38 @@ const Brand = require('../../models/brand');
 
 module.exports = {
     create : async (req, res) =>{
-        const { name } = req.body;
-        const brand = await Brand.create({
-            name
-        })
+        try {
+            const { name } = req.body;
+            const brand = await Brand.create({
+                name
+            })
 
-        return res.send(brand)
+            return res.send(brand)
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({message: "Error creating brand"});
+        }
     },
 
     find : async (req, res) => {
-        const brand = await Brand.find()
-        return res.send(brand)
+        try {
+            const brand = await Brand.find()
+            return res.send(brand)
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({message: "Error getting brands"});
+        }
     },
     
     modelsByBrand : async (req, res) => {
-       const { id } = req.params;
-       const brand = await Brand.findById(id).populate('models');
+        try {
+            const { id } = req.params;
+            const brand = await Brand.findById(id).populate('models');
 
-        res.send(brand.models);
+            res.send(brand.models);
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({message: "Error getting models"});
+        }
     }
 }

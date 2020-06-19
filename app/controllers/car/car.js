@@ -57,134 +57,145 @@ module.exports = {
     
             return res.send(populatedCar)
         } catch (error) {
-            console.log("error", error);
+            console.log(error);
+            res.status(500).send({message: "Error creating car"});
         }
     },
 
     list : async (req, res) => {
-        const cars = await Car.find()
-            .populate("brand", 'name')
-            .populate("model", 'name')
-            .populate("apps", 'name')
-            .populate("currentRentalCompany", 'name')
-            .populate("rentalCompanies", 'name');
-        
-        let response = [];
-        
-        cars.forEach(car => {
-            response.push(convertToResponse(car))
-        });
+        try {
+            const cars = await Car.find()
+                .populate("brand", 'name')
+                .populate("model", 'name')
+                .populate("apps", 'name')
+                .populate("currentRentalCompany", 'name')
+                .populate("rentalCompanies", 'name');
+            
+            let response = [];
+            
+            cars.forEach(car => {
+                response.push(convertToResponse(car))
+            });
 
-        return res.send({cars: response})
+            return res.send({cars: response})
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({message: "Error getting cars"});
+        }
     },
 
     getCar : async (req, res) => {
-        const { id } = req.params;
+        try {
+            const { id } = req.params;
 
-        const car = await Car.findById(id)
-            .populate("brand", 'name')
-            .populate("model", 'name')
-            .populate("apps", 'name')
-            .populate("currentRentalCompany", 'name')
-            .populate("rentalCompanies", 'name');
+            const car = await Car.findById(id)
+                .populate("brand", 'name')
+                .populate("model", 'name')
+                .populate("apps", 'name')
+                .populate("currentRentalCompany", 'name')
+                .populate("rentalCompanies", 'name');
 
-        res.send(convertToResponse(car));
+            res.send(convertToResponse(car));
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({message: "Error getting car"});
+        }
     },
 
     search : async (req, res) => {
-        const { 
-            name, apps, brand, model, manufactureYear, modelYear, cost, luggages, 
-            airConditioner, passengers, airBag, abs, locationPickup, isAplicationCar, 
-            datePickup, dateEnd, kilometrage, security, adminTax, color
-        } = req.body;
-
-        let filtters = {};
-        
-        //simple filtter
-        if (name) { filtters.name = name}
-        if (brand) { filtters.brand = brand}
-        if (model) { filtters.model = model}
-        if (luggages) { filtters.luggages = luggages}
-        if (airConditioner) { filtters.airConditioner = airConditioner}
-        if (airBag) { filtters.airBag = airBag}
-        if (abs) { filtters.abs = abs}
-        if (locationPickup) { filtters.currentRentalCompany = locationPickup}
-        if (color) { filtters.color = color}
-
-        //complex apps filtter
-        if (apps) { filtters.apps = { $in: apps } }
-        if (isAplicationCar) {                        
-            let appIds = [];
-
-            const apps = await App.find()
-            apps.forEach(app => {
-                appIds.push(app._id);
-            });
-
-            filtters.apps = { $in: appIds }
-        }
-        
-        //complex data filtter
-        if(datePickup && dateDelivery) {
-            let rentFiltters = [];
-            
-            rentFiltters.push({
-                datePickup: {
-                    $gte: datePickup,
-                    $lte: dateDelivery
-                }
-            })
-
-            rentFiltters.push({
-                dateDelivery: {
-                    $gte: datePickup,
-                    $lte: dateDelivery
-                }
-            })
-            
-            let rentedCards = [];
-
-            const rents = await Rent.find({$or: rentFiltters})
-            
-            rents.forEach(rent => {
-                rentedCards.push(rent.car);
-            });
-            
-            
-            if (rentedCards.length > 0) {
-                filtters._id = { $nin: rentedCards }
-            }
-        }
-
-        //complex filtter
-        if (manufactureYear) { filtters = FiltterBuilderUtils.build(manufactureYear, filtters, "manufactureYear") }
-        if (modelYear) { filtters = FiltterBuilderUtils.build(modelYear, filtters, "modelYear") }
-        if (cost) { filtters = FiltterBuilderUtils.build(cost, filtters, "cost") }
-        if (passengers) { filtters = FiltterBuilderUtils.build(passengers, filtters, "passengers") }
-        if (kilometrage) { filtters = FiltterBuilderUtils.build(kilometrage, filtters, "kilometrage") }
-        if (security) { filtters = FiltterBuilderUtils.build(security, filtters, "security") }
-        if (adminTax) { filtters = FiltterBuilderUtils.build(adminTax, filtters, "adminTax") }
-        
-        let cars = [];
-        
         try {
+            const { 
+                name, apps, brand, model, manufactureYear, modelYear, cost, luggages, 
+                airConditioner, passengers, airBag, abs, locationPickup, isAplicationCar, 
+                datePickup, dateEnd, kilometrage, security, adminTax, color
+            } = req.body;
+    
+            let filtters = {};
+            
+            //simple filtter
+            if (name) { filtters.name = name}
+            if (brand) { filtters.brand = brand}
+            if (model) { filtters.model = model}
+            if (luggages) { filtters.luggages = luggages}
+            if (airConditioner) { filtters.airConditioner = airConditioner}
+            if (airBag) { filtters.airBag = airBag}
+            if (abs) { filtters.abs = abs}
+            if (locationPickup) { filtters.currentRentalCompany = locationPickup}
+            if (color) { filtters.color = color}
+    
+            //complex apps filtter
+            if (apps) { filtters.apps = { $in: apps } }
+            if (isAplicationCar) {                        
+                let appIds = [];
+    
+                const apps = await App.find()
+                apps.forEach(app => {
+                    appIds.push(app._id);
+                });
+    
+                filtters.apps = { $in: appIds }
+            }
+            
+            //complex data filtter
+            if(datePickup && dateDelivery) {
+                let rentFiltters = [];
+                
+                rentFiltters.push({
+                    datePickup: {
+                        $gte: datePickup,
+                        $lte: dateDelivery
+                    }
+                })
+    
+                rentFiltters.push({
+                    dateDelivery: {
+                        $gte: datePickup,
+                        $lte: dateDelivery
+                    }
+                })
+                
+                let rentedCards = [];
+    
+                const rents = await Rent.find({$or: rentFiltters})
+                
+                rents.forEach(rent => {
+                    rentedCards.push(rent.car);
+                });
+                
+                
+                if (rentedCards.length > 0) {
+                    filtters._id = { $nin: rentedCards }
+                }
+            }
+    
+            //complex filtter
+            if (manufactureYear) { filtters = FiltterBuilderUtils.build(manufactureYear, filtters, "manufactureYear") }
+            if (modelYear) { filtters = FiltterBuilderUtils.build(modelYear, filtters, "modelYear") }
+            if (cost) { filtters = FiltterBuilderUtils.build(cost, filtters, "cost") }
+            if (passengers) { filtters = FiltterBuilderUtils.build(passengers, filtters, "passengers") }
+            if (kilometrage) { filtters = FiltterBuilderUtils.build(kilometrage, filtters, "kilometrage") }
+            if (security) { filtters = FiltterBuilderUtils.build(security, filtters, "security") }
+            if (adminTax) { filtters = FiltterBuilderUtils.build(adminTax, filtters, "adminTax") }
+            
+            let cars = [];
+            
             cars = await Car.find(filtters)
                 .populate("brand", 'name')
                 .populate("model", 'name')
                 .populate("apps", 'name')
                 .populate("currentRentalCompany", 'name')
                 .populate("rentalCompanies", 'name');            
-        } catch (ex) {
-            console.log(ex);
+            let response = [];
+            
+            cars.forEach(car => {
+                response.push(convertToResponse(car))
+            });
+    
+            return res.send({cars: response})
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({message: "Error searching cars"});
         }
-        
-        let response = [];
-        
-        cars.forEach(car => {
-            response.push(convertToResponse(car))
-        });
-
-        return res.send({cars: response})
     }
 }
 

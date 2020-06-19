@@ -2,35 +2,50 @@ const Billet = require('../../models/billet');
 
 module.exports = {
     create : async (req, res) =>{
-        const { code, dueDate, url } = req.body;
+        try {
+            const { code, dueDate, url } = req.body;
         
-        const billet = await Billet.create({
-            code, 
-            dueDate, 
-            url
-        })
+            const billet = await Billet.create({
+                code, 
+                dueDate, 
+                url
+            })
 
-        return res.send(convertToResponse(billet))
+            return res.send(convertToResponse(billet))
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({message: "Error creating billet"});
+        }
     },
 
     find : async (req, res) => {
-        const billets = await Billet.find()
+        try {
+            const billets = await Billet.find()
         
-        let response = [];
+            let response = [];
 
-        billets.forEach(billet => {
-            response.push(convertToResponse(billet))
-        });
+            billets.forEach(billet => {
+                response.push(convertToResponse(billet))
+            });
 
-        return res.send(response)
+            return res.send(response)
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({message: "Error getting billets"});
+        }        
     },
 
     findById : async (req, res) => {
-        const { id } = req.params;
+        try {
+            const { id } = req.params;
         
-        const billet = await Billet.findById(id);
+            const billet = await Billet.findById(id);
  
-         res.send(convertToResponse(billet));
+            res.send(convertToResponse(billet));
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({message: "Error getting billets"});
+        }
     }    
 }
 

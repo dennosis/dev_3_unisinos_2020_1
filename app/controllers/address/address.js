@@ -75,22 +75,27 @@ let create = async (data) => {
 }
 
 let findAddressById  =  async (req, res) => {
-    const { id } = req.params;
+    try {
+        const { id } = req.params;
     
-    const address = await Address.findById(id);
-    
-    return res.send({
-        id: address._id,
-        cep: address.cep,
-        address: address.address,
-        number: address.number,
-        residentialComplement: address.residentialComplement,
-        neighborhood: address.neighborhood,
-        city: address.city,
-        uf: address.uf,
-        latitude: address.latitude,
-        longitude:  address.longitude 
-    });
+        const address = await Address.findById(id);
+        
+        return res.send({
+            id: address._id,
+            cep: address.cep,
+            address: address.address,
+            number: address.number,
+            residentialComplement: address.residentialComplement,
+            neighborhood: address.neighborhood,
+            city: address.city,
+            uf: address.uf,
+            latitude: address.latitude,
+            longitude:  address.longitude 
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({message: "Error getting address"});
+    }
 }
 
 

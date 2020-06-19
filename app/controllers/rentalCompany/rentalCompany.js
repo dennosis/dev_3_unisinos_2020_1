@@ -3,43 +3,58 @@ const AddressController = require('../address/address');
 
 module.exports = {
     create : async (req, res) =>{
-        const data = req.body
+        try {
+            const data = req.body
 
-        const address = await AddressController.create(data)
+            const address = await AddressController.create(data)
 
-        const { name, cellphone, phone, email } = data;
-        
-        const company = await RentalCompany.create({
-            name,
-            cellphone,
-            phone,
-            email,
-            address
-        })
+            const { name, cellphone, phone, email } = data;
+            
+            const company = await RentalCompany.create({
+                name,
+                cellphone,
+                phone,
+                email,
+                address
+            })
 
-        return res.send(company)
+            return res.send(company)
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({message: "Error creating rental company"});
+        }
     },
 
     find : async (req, res) => {
-        const companies = await RentalCompany.find()
-            .populate('address')
+        try {            
+            const companies = await RentalCompany.find()
+                .populate('address')
 
-        let response = [];
-        
-        companies.forEach(company => {
-            response.push(convertToResponse(company))
-        });
+            let response = [];
+            
+            companies.forEach(company => {
+                response.push(convertToResponse(company))
+            });
 
-        return res.send(response)
+            return res.send(response)
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({message: "Error getting rental companies"});
+        }
     },
 
     findById : async (req, res) => {
-        const { id } = req.params;
+        try {
+            const { id } = req.params;
         
-        const company = await RentalCompany.findById(id)
-            .populate('address');
- 
-        res.send(convertToResponse(company));
+            const company = await RentalCompany.findById(id)
+                .populate('address');
+    
+            res.send(convertToResponse(company));
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({message: "Error getting rental company"});
+        }
     }
 }
 

@@ -6,69 +6,84 @@ const AsyncUtils = require('../../../utils-module').Async;
 
 module.exports = {
     create : async (req, res) => {
-        const { userId } = req;
+        try {
+            const { userId } = req;
         
-        let { rentalCompanyPickupId, rentalCompanyDeliveryId, carId, datePickup, dateDelivery } = req.body;
-        
-        if (!rentalCompanyDeliveryId) {
-            rentalCompanyDeliveryId = rentalCompanyPickupId;
+            let { rentalCompanyPickupId, rentalCompanyDeliveryId, carId, datePickup, dateDelivery } = req.body;
+            
+            if (!rentalCompanyDeliveryId) {
+                rentalCompanyDeliveryId = rentalCompanyPickupId;
+            }
+
+            let totalAmount = await calculate(carId, datePickup, dateDelivery);
+            
+            const rent = await Rent.create({
+                customer: userId,
+                rentalCompanyPickup: rentalCompanyPickupId,
+                rentalCompanyDelivery: rentalCompanyDeliveryId,
+                car: carId,
+                datePickup, 
+                dateDelivery,
+                totalAmount: totalAmount
+            });
+
+            await rent.save();
+
+            const relatedUser = await User.findById(userId);
+            relatedUser.rents.push(rent);
+            await relatedUser.save();
+
+            //add Rent to Car
+            const relatedCar = await Car.findById(carId);
+            relatedCar.rents.push(rent);
+            await relatedCar.save();
+
+            return res.send(convertCreatedToResponse(rent));
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({message: "Error creating rent"});
         }
-
-        let totalAmount = await calculate(carId, datePickup, dateDelivery);
-        
-        const rent = await Rent.create({
-            customer: userId,
-            rentalCompanyPickup: rentalCompanyPickupId,
-            rentalCompanyDelivery: rentalCompanyDeliveryId,
-            car: carId,
-            datePickup, 
-            dateDelivery,
-            totalAmount: totalAmount
-        });
-
-        await rent.save();
-
-        const relatedUser = await User.findById(userId);
-        relatedUser.rents.push(rent);
-        await relatedUser.save();
-
-        //add Rent to Car
-        const relatedCar = await Car.findById(carId);
-        relatedCar.rents.push(rent);
-        await relatedCar.save();
-
-        return res.send(convertCreatedToResponse(rent));
     },
 
     find : async (req, res) => {
-        const { userId } = req;
+        try {
+            const { userId } = req;
 
-        const rents = await Rent.find({customer: userId})
-            .populate("car")
-            .populate("rentalCompanyPickup")
-            .populate("rentalCompanyDelivery")
-            .populate("payment")
-        
-        let response = [];
+            const rents = await Rent.find({customer: userId})
+                .populate("car")
+                .populate("rentalCompanyPickup")
+                .populate("rentalCompanyDelivery")
+                .populate("payment")
+            
+            let response = [];
 
-        await Promise.all(rents.map(async (rent) => {
-            let converted = await convertListToResponse(rent);            
-            response.push(converted)
-        }));
-        
-        return res.send({rents: response})
+            await Promise.all(rents.map(async (rent) => {
+                let converted = await convertListToResponse(rent);            
+                response.push(converted)
+            }));
+            
+            return res.send({rents: response})
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({message: "Error getting rents"});
+        }
     },
 
     findById : async (req, res) => {
-        const { id } = req.params;
+        try {
+            const { id } = req.params;
 
-        const rent = await Rent.findById(id)
-            .populate("car")
-            .populate("rentalCompanyPickup")
-            .populate("rentalCompanyDelivery")
-            .populate("payment")
-        
-        return res.send(await convertListToResponse(rent))
+            const rent = await Rent.findById(id)
+                .populate("car")
+                .populate("rentalCompanyPickup")
+                .populate("rentalCompanyDelivery")
+                .populate("payment")
+            
+            return res.send(await convertListToResponse(rent))
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({message: "Error getting rent"});
+        }
     },
 }
 
