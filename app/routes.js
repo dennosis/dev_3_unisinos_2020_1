@@ -75,7 +75,7 @@ router.get('/address/:id', Address.findAddressById);
 
 
 // Auth routes
-router.post("/authenticate/signup", Auth.signup);
+router.post("/authenticate/signup", Register.register);
 router.post("/authenticate/signin", Auth.signin);
 
 module.exports = router;
