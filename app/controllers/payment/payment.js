@@ -36,6 +36,10 @@ module.exports = {
                 value: value
             })
 
+            let rent = await Rent.findById(rentId);
+            rent.payment = payment._id;
+            await rent.save();
+
             return res.send(convertToResponse(payment, false))
         } catch (error) {
             console.log(error);
@@ -74,6 +78,9 @@ let getValue = async (rentId) => {
 let convertToResponse = (payment, card) => {
     return {
         id: payment._id,
-        message: card ? 'Pagamento realizado com sucesso!' : 'Pagamento aguardando confirmação.'
+        message: card ? 'Pagamento realizado com sucesso!' : 'Pagamento aguardando confirmação.',
+        cardId: payment.card,
+        billetId:  payment.billet
+    
     }
 }
