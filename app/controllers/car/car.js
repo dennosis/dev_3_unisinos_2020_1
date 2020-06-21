@@ -106,7 +106,7 @@ module.exports = {
         try {
             const { 
                 name, apps, brand, model, manufactureYear, modelYear, cost, luggages, 
-                airConditioner, passengers, airBag, abs, locationPickup, isAplicationCar, 
+                airConditioner, passengers, airBag, abs, rentalCompanyPickup, rentalCompanyDelivery, isAplicationCar, 
                 datePickup, dateDelivery, kilometrage, security, adminTax, color
             } = req.body;
     
@@ -120,7 +120,7 @@ module.exports = {
             if (airConditioner) { filtters.airConditioner = airConditioner}
             if (airBag) { filtters.airBag = airBag}
             if (abs) { filtters.abs = abs}
-            if (locationPickup) { filtters.currentRentalCompany = locationPickup}
+            if (rentalCompanyPickup) { filtters.currentRentalCompany = rentalCompanyPickup}
             if (color) { filtters.color = color}
     
             //complex apps filtter
