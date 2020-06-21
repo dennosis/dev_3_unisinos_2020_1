@@ -194,7 +194,7 @@ module.exports = {
             return res.send({cars: response})
         } catch (error) {
             console.log(error);
-            res.status(500).send({message: "Error searching cars"});
+            res.status(500).send({message: "Error searching cars", error: error});
         }
     }
 }
