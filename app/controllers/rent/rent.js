@@ -24,7 +24,7 @@ module.exports = {
                 car: carId,
                 datePickup, 
                 dateDelivery,
-                totalAmount: totalAmount
+                totalAmount:  parseFloat(totalAmount)
             });
 
             await rent.save();
