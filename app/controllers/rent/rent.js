@@ -133,6 +133,7 @@ let convertListToResponse = async (rent) => {
         carId: cardId,
         datePickup: rent.datePickup,
         dateDelivery: rent.dateDelivery,
-        paymentId: (rent.payment) ? rent.payment._id : ''
+        paymentId: (rent.payment) ? rent.payment._id : '',
+        totalAmount: rent.totalAmount
     }
 }
