@@ -107,7 +107,7 @@ module.exports = {
             const { 
                 name, apps, brand, model, manufactureYear, modelYear, cost, luggages, 
                 airConditioner, passengers, airBag, abs, locationPickup, isAplicationCar, 
-                datePickup, dateEnd, kilometrage, security, adminTax, color
+                datePickup, dateDelivery, kilometrage, security, adminTax, color
             } = req.body;
     
             let filtters = {};
