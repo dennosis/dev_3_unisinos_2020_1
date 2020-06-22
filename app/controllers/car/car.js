@@ -120,9 +120,12 @@ module.exports = {
             if (airConditioner) { filtters.airConditioner = airConditioner}
             if (airBag) { filtters.airBag = airBag}
             if (abs) { filtters.abs = abs}
-            if (rentalCompanyPickup) { filtters.currentRentalCompany = rentalCompanyPickup}
             if (color) { filtters.color = color}
-    
+            
+            //complex locatio filtters
+            if (rentalCompanyPickup) { filtters.currentRentalCompany = rentalCompanyPickup}
+            if (rentalCompanyDelivery) { filtters.rentalCompanies = { $in: [rentalCompanyDelivery] } }
+
             //complex apps filtter
             if (apps) { filtters.apps = { $in: apps } }
             if (isAplicationCar) {                        
