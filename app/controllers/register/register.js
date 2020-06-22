@@ -89,6 +89,7 @@ let setUser = async (req, res) => {
                             .populate("address")  
         const {
             name,
+            password,
             cpf,
             rg,
             phone,
@@ -106,6 +107,7 @@ let setUser = async (req, res) => {
         } = req.body
 
         if(name){ userInfo.user.name = name }
+        if(password){ userInfo.user.password = password }
         if(cpf){ userInfo.cpf = cpf }
         if(rg){ userInfo.rg = rg }
         if(phone){ userInfo.phone = phone }
