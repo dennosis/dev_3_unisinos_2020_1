@@ -68,7 +68,7 @@ module.exports = {
             return res.send({
                 id: payment._id,
                 isPaidOut: payment.isPaidOut,
-                value: payment.value,
+                value: parseFloat(payment.value),
                 card: payment.card,
                 billet: payment.billet        
             });
