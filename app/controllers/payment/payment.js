@@ -13,6 +13,7 @@ module.exports = {
                 card: cardId, 
                 rent: rentId,
                 value: value,
+                isPaidOut:true
             })
 
             let rent = await Rent.findById(rentId);
