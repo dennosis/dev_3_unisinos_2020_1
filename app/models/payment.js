@@ -6,7 +6,8 @@ let PaymentSchema = new Schema({
         type: Boolean
     },
     value: {
-        type: Number
+        type: mongoose.Decimal128,
+        required: true
     },
     rent: {
         type: mongoose.Schema.Types.ObjectId,
