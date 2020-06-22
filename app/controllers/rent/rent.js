@@ -24,7 +24,7 @@ module.exports = {
                 car: carId,
                 datePickup, 
                 dateDelivery,
-                totalAmount:  parseFloat(totalAmount)
+                totalAmount: totalAmount
             });
 
             await rent.save();
@@ -134,6 +134,6 @@ let convertListToResponse = async (rent) => {
         datePickup: rent.datePickup,
         dateDelivery: rent.dateDelivery,
         paymentId: (rent.payment) ? rent.payment._id : '',
-        totalAmount: rent.totalAmount
+        totalAmount: parseFloat(rent.totalAmount)
     }
 }
