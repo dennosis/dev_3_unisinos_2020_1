@@ -242,6 +242,7 @@ let convertToResponse = (car) => {
         passengers: car.passengers,
         airBag: car.airBag,
         abs: car.abs,
+        board: car.board,
         currentRentalCompany: currentRentalCompany,
         rentalCompanies: rentalCompanies,
         kilometrage: car.kilometrage,
